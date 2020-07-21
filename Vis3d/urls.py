@@ -20,6 +20,4 @@ from Visdate import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('Visdate/', include('Visdate.urls')),
-    path('admin/', admin.site.urls),
 ]
