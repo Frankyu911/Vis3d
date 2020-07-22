@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <!--  css + js -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/my-css.css' %}">
-    <script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
+
     <script src="{% static 'js/loadfile.js' %}"></script>
 
     <!--mpld3 script-->
@@ -24,7 +24,7 @@
         <form name="uploadForm">
             <div>
                 <input type="file" onchange="readFiles(event)">
-                <button onclick="changeimage()">Change</button>
+
             </div>
         </form>
 
@@ -39,14 +39,58 @@
         </div>
     </div>
 
-    <div>
-            <div id="fig1">graph1</div>
-    </div>
+    <button id="show" >Show</button>
+    <button id="change" >Change</button>
+
+    <input type="text" id="i1">+
+    <input type="text" id="i2">=
+    <input type="text" id="i3">
+    <input type="button" value="AJAX提交" id="b1">
 
 
+
+    <div id="fig1">graph2</div>
+    <div id="fig2">graph2</div>
+
+    <script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
     <script type="text/javascript">
-        mpld3.draw_figure("fig1", {{graph1 | safe}});
-        mpld3.draw_figure("fig2", {{graph2 | safe}});
+
+
+    </script>
+
+    <script>
+
+        $("#show").click(function(){
+            console.log({{graph1 | safe}});
+            mpld3.draw_figure("fig1", {{graph1 | safe}});
+
+        });
+
+        $("#chanssssge").click(function(){
+            mpld3.draw_figure("fig1", {{graph1 | safe}});
+
+        });
+
+        $("#b1").on("click", function () {
+            $.ajax({
+            url:"/ajax_add/",
+            type:"GET",
+            data:{"i1":$("#i1").val(),"i2":$("#i2").val()},
+            success:function (data) {
+                $("#i3").val(data);}
+            });
+        });
+
+        $("#change").on("click", function () {
+            $.ajax({
+            url:"/change/",
+            type:"GET",
+            success:function (data) {
+                console.log(data);
+                }
+            });
+        });
+
     </script>
 
 </body>

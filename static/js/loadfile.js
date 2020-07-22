@@ -34,6 +34,4 @@ function loadAsText(theFile) {
 }
 
 //change image
-function changeimage() {
 
-}
