@@ -1,7 +1,7 @@
 // This function is used to process files - it calls 'loadAsText'
 function readFiles(event) {
     var fileList = event.target.files;
-
+         console.log("s222s");
     for (var i=0; i < fileList.length; i++) {
         loadAsText(fileList[i]);
     }

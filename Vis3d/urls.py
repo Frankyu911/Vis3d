@@ -20,6 +20,6 @@ from Visdate import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('ajax_add/',views.ajax_add,),
-    path('change/',views.change,)
+    path('change/',views.change,),
+    path('upload/',views.upload,)
 ]

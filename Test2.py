@@ -1,21 +1,26 @@
-from django.http import  HttpResponse
-from django.shortcuts import render
 import matplotlib.pyplot as plt
-from mpld3 import plugins, fig_to_html, save_html, fig_to_dict
-import json
 import numpy as np
-from scipy.interpolate import griddata
 
-class NumpyEncoder(json.JSONEncoder):
-    def default(self, obj):
-        #检查Object类型
-        if isinstance(obj, np.ndarray):
-            return obj.tolist()
-        return json.JSONEncoder.default(self, obj)
+import mpld3
+from mpld3 import plugins
 
-fig = plt.figure()
-plt.scatter([1, 10], [5, 9])
-f = open('jsondata.json', 'w')
-data = json.dumps(fig_to_dict(fig), cls=NumpyEncoder)
-f.write(data)
-f.close()
+fig, ax = plt.subplots()
+
+x = np.linspace(-2, 2, 20)
+y = x[:, None]
+X = np.zeros((20, 20, 4))
+
+X[:, :, 0] = np.exp(- (x - 1) ** 2 - (y) ** 2)
+X[:, :, 1] = np.exp(- (x + 0.71) ** 2 - (y - 0.71) ** 2)
+X[:, :, 2] = np.exp(- (x + 0.71) ** 2 - (y + 0.71) ** 2)
+X[:, :, 3] = np.exp(-0.25 * (x ** 2 + y ** 2))
+
+im = ax.imshow(X, extent=(10, 20, 10, 20),
+               origin='lower', zorder=1, interpolation='nearest')
+fig.colorbar(im, ax=ax)
+
+ax.set_title('An Image', size=20)
+
+plugins.connect(fig, plugins.MousePosition(fontsize=14))
+
+mpld3.show()
