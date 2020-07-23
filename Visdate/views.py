@@ -134,8 +134,8 @@ def ajax_add(request):
 
 def change(request):
     fixed_axis = "y"
-    axis_value = 0.1
-    levels=50
+    axis_value = 0.05
+    levels=10
     amp_min=0
     amp_max=2500
     xmin=None
@@ -236,8 +236,8 @@ def change(request):
     #要使用自定义的' ' JSONEncoder ' '子类(例如，一个覆盖' ' .default() ' '方法来序列化其他类型的子类
     # )，用' ' cls ' ' kwarg指定它;否则使用' ' JSONEncoder ' .json
     g2 = json.dumps(fig_to_dict(fig), cls=NumpyEncoder)
-    f = open('jsondata.json', 'w')
-    f.write(g2)
-    f.close()
+    # f = open('jsondata.json', 'w')
+    # f.write(g2)
+    # f.close()
 
-    return JsonResponse(g2, safe=False)
+    return HttpResponse(content=g2, content_type=json,status= None)

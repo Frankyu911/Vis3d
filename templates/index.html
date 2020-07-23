@@ -18,66 +18,39 @@
 
 <body>
 
-
-    <div id="upload" >
-        <h2 class="header">Upload File</h2>
-        <form name="uploadForm">
-            <div>
-                <input type="file" onchange="readFiles(event)">
-
-            </div>
-        </form>
-
-    </div>
-
-
-    <div id="output">
-        <h2 class="header">File Contents</h2>
-
-        <div id="file_contents">
-            <!-- This is empty, we will use jQuery to add text later -->
-        </div>
-    </div>
-
     <button id="show" >Show</button>
     <button id="change" >Change</button>
-
-    <input type="text" id="i1">+
-    <input type="text" id="i2">=
-    <input type="text" id="i3">
-    <input type="button" value="AJAX提交" id="b1">
+    <button id="clean" >Clean</button>
+    <button id="changeimage" >Changeimage</button>
 
 
+    <div id="fig1" >graph1</div>
 
-    <div id="fig1">graph2</div>
-    <div id="fig2">graph2</div>
 
+
+
+
+
+
+    <!--Script-->
     <script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
     <script type="text/javascript">
-
-
-    </script>
-
-    <script>
+        mpld3.draw_figure("fig1", {{graph1 | safe}});
 
         $("#show").click(function(){
-            console.log({{graph1 | safe}});
             mpld3.draw_figure("fig1", {{graph1 | safe}});
 
         });
 
-        $("#chanssssge").click(function(){
-            mpld3.draw_figure("fig1", {{graph1 | safe}});
-
-        });
-
-        $("#b1").on("click", function () {
+        $("#clean").click(function(){
+            $('#fig1').empty();
             $.ajax({
-            url:"/ajax_add/",
+            url:"/change/",
             type:"GET",
-            data:{"i1":$("#i1").val(),"i2":$("#i2").val()},
             success:function (data) {
-                $("#i3").val(data);}
+                mpld3.draw_figure("fig2", data);
+
+                }
             });
         });
 
@@ -86,12 +59,14 @@
             url:"/change/",
             type:"GET",
             success:function (data) {
-                console.log(data);
+                mpld3.draw_figure("fig2", data);
                 }
             });
         });
 
+         $("#changeimage").on("click", function () {
+            var svg = d3.select("svg").attr("width", 200)
+         });
     </script>
-
 </body>
 </html>
