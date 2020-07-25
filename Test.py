@@ -147,11 +147,11 @@ cbar.ax.set_ylabel("Amplitude (Pa)")
 cbar.ax.set_yticklabels(['< 0', '500', '1000', '1500', '2000', '2500'])
 
 # if save:
-#     plt.savefig(file_prefix+title+".png", bbox_inches='tight',
-#                 dpi=300, quality=100)
+plt.savefig(file_prefix+title+".png", bbox_inches='tight',
+                dpi=300, quality=100)
 # if show:
 #     plt.show()
-mpld3.show()
+plt.show()
 #
 # if __name__ == "__main__":
 

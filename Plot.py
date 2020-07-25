@@ -1,4 +1,7 @@
 import os
+
+import mpld3
+import pandas as pd
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 import matplotlib.pyplot as plt
@@ -47,16 +50,19 @@ def Plot(filename, fixed_axis, axis_value, levels=130, amp_min=0, amp_max=2500,
                 x_axis += [_z[i]]
                 y_axis += [_y[i]]
                 amplitude += [_amplitude[i]]
+
         elif fixed_axis in ["y", "Y"]:
             if _y[i] == axis_value:
                 x_axis += [_x[i]]
                 y_axis += [_z[i]]
                 amplitude += [_amplitude[i]]
+
         else:
             if _z[i] == axis_value:
                 x_axis += [_x[i]]
                 y_axis += [_y[i]]
                 amplitude += [_amplitude[i]]
+
 
     # Convert from Python arrays to Numpy arrays
     x = np.array(x_axis)
@@ -81,30 +87,37 @@ def Plot(filename, fixed_axis, axis_value, levels=130, amp_min=0, amp_max=2500,
         xlab = "x (m)"
         ylab = "y (m)"
 
-
+    title = filename.split("/")[-1] + "-" + fixed_axis + "=" + str(axis_value) + "m"
     # Create new plot figure  fig是大图 ，ax是小图数组
     fig, ax = plt.subplots(nrows=1, ncols=1)
 
 
     # # Create a contour plot   填充图像， cmap 显示图级，vmin到vmax颜色浮动，cm全称表示colormap，颜色库
     cs = ax.contourf(xi, yi, amplitudei, levels=levels,cmap=plt.cm.magma, vmin=amp_min, vmax=amp_max)
+
     #反转x轴
     ax.invert_xaxis()
     # 设置坐标平均
     ax.axis('scaled')
     ax.set_facecolor((0.0, 0.0, 0.0))
+    ax.set_title(title, pad=20)
     ax.set_xlabel(xlab)
     ax.set_ylabel(ylab)
 
-    # # Set maximum value as 30cm (0.3m)
-    if fixed_axis in ["x", "X", "z", "z"]:
-        ax.set_ylim(0, 0.3)
+
+    #
+
+    plugins.connect(fig, plugins.MousePosition(fontsize=12))
 
     # # Create colour bar scale for the colour map
     cbar = fig.colorbar(cs)
     cbar.ax.set_ylabel("Amplitude (Pa)")
 
 
+
+    if save:
+        plt.savefig(file_prefix+title+".png", bbox_inches='tight',
+                    dpi=300, quality=100)
 
     #save_html(fig, 'fig.html')
     #json.dumps 用于将 Python 对象编码成 JSON 字符串
@@ -113,6 +126,7 @@ def Plot(filename, fixed_axis, axis_value, levels=130, amp_min=0, amp_max=2500,
     # f = open('jsondata.json', 'w')
     # f.write(g1)
     # f.close()
-    g1 = json.dumps(fig_to_dict(fig), cls=NumpyEncoder)
+    if show:
+        g1 = json.dumps(fig_to_dict(fig), cls=NumpyEncoder)
+        return g1
 
-    return g1

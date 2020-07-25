@@ -21,5 +21,6 @@ from Visdate import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('change/',views.change,),
-    path('upload/',views.upload,)
+    path('upload/',views.upload,),
+    path('save/',views.save,)
 ]
