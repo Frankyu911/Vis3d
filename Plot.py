@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 from mpld3 import plugins, fig_to_html, save_html, fig_to_dict
 import json
 import numpy as np
+from mpld3.plugins import PointHTMLTooltip
 from scipy.interpolate import griddata
 
 class NumpyEncoder(json.JSONEncoder):
@@ -18,7 +19,7 @@ class NumpyEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, obj)
 
 
-def Plot(filename, fixed_axis, axis_value, levels=130, amp_min=0, amp_max=2500,
+def Plot(filename, fixed_axis, axis_value, levels=30, amp_min=0, amp_max=2500,
          save=False, file_prefix="", show=True, xmin=None, xmax=None, ymin=None, ymax=None):
      # Check fixed_axis has a valid value
     if fixed_axis not in ["x", "y", "z", "X", "Y", "Z"]:
@@ -69,9 +70,10 @@ def Plot(filename, fixed_axis, axis_value, levels=130, amp_min=0, amp_max=2500,
     y = np.array(y_axis)
     amplitude = np.array(amplitude)
 
-    # Create a linear space for interpolating between x and z axes values
+    # Create a linear space for interpolating between x and z axes values 等差数列
     xi = np.linspace(x.min() if xmin == None else xmin, x.max() if xmax == None else xmax, 1000)
     yi = np.linspace(y.min() if ymin == None else ymin, y.max() if ymax == None else ymax, 1000)
+
 
     # Interpolate the x and z axes to fill in the gaps between measurements
     amplitudei = griddata((x, y), amplitude, (xi[None,:], yi[:,None]), method='cubic')
@@ -89,6 +91,7 @@ def Plot(filename, fixed_axis, axis_value, levels=130, amp_min=0, amp_max=2500,
 
     title = filename.split("/")[-1] + "-" + fixed_axis + "=" + str(axis_value) + "m"
     # Create new plot figure  fig是大图 ，ax是小图数组
+
     fig, ax = plt.subplots(nrows=1, ncols=1)
 
 
@@ -106,8 +109,11 @@ def Plot(filename, fixed_axis, axis_value, levels=130, amp_min=0, amp_max=2500,
 
 
     #
-
     plugins.connect(fig, plugins.MousePosition(fontsize=12))
+
+
+
+
 
     # # Create colour bar scale for the colour map
     cbar = fig.colorbar(cs)

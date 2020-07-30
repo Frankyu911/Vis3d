@@ -8,6 +8,7 @@ Alexander Ng (University of Glasgow)
 """
 import os
 
+import pandas as pd
 from django.http import  HttpResponse
 from django.shortcuts import render
 import matplotlib.pyplot as plt
@@ -40,7 +41,27 @@ import mpld3
         ymin:        Minimum y-axis value.
         ymax:        Maximum y-axis value.
     """
-
+css = """
+table
+{
+  border-collapse: collapse;
+}
+th
+{
+  color: #ffffff;
+  background-color: #000000;
+}
+td
+{
+  background-color: #cccccc;
+}
+table, th, td
+{
+  font-family:Arial, Helvetica, sans-serif;
+  border: 1px solid black;
+  text-align: right;
+}
+"""
 fixed_axis = "y"
 axis_value = 0.1
 levels=130
@@ -121,12 +142,10 @@ else:
 title =  "-" + fixed_axis + "=" + str(axis_value) + "m"
 
 # Create new plot figure  fig是大图 ，ax是小图数组
-fig, ax = plt.subplots(nrows=1, ncols=1)
+fig, ax = plt.subplots()
 
 
-# # Create a contour plot   填充图像， cmap 显示图级，vmin到vmax颜色浮动，cm全称表示colormap，颜色库
-cs = ax.contourf(xi, yi, amplitudei, levels=levels,
-                 cmap=plt.cm.magma, vmin=amp_min, vmax=amp_max)
+
 #反转x轴
 ax.invert_xaxis()
 # 设置坐标平均
@@ -141,50 +160,39 @@ if fixed_axis in ["x", "X", "z", "z"]:
     ax.set_ylim(0, 0.3)
 
 
-# # Create colour bar scale for the colour map
-cbar = fig.colorbar(cs)
-cbar.ax.set_ylabel("Amplitude (Pa)")
-cbar.ax.set_yticklabels(['< 0', '500', '1000', '1500', '2000', '2500'])
-
-# if save:
-plt.savefig(file_prefix+title+".png", bbox_inches='tight',
-                dpi=300, quality=100)
-# if show:
-#     plt.show()
-plt.show()
-#
-# if __name__ == "__main__":
+# # # Create colour bar scale for the colour map
+# cbar = fig.colorbar(cs)
+# cbar.ax.set_ylabel("Amplitude (Pa)")
+# cbar.ax.set_yticklabels(['< 0', '500', '1000', '1500', '2000', '2500'])
 
 
-# if len(sys.argv) == 5:
-#     file_prefix=sys.argv[4]
-# else:
-#     file_prefix=""
-#
-# if len(sys.argv) == 6:
-#     save=False
-#     show=True
-# else:
-#     save=True
-#     show=False
-#
-# if len(sys.argv) == 9:
-#     xmin = float(sys.argv[5])
-#     xmax = float(sys.argv[6])
-#     ymin = float(sys.argv[7])
-#     ymax = float(sys.argv[8])
-# else:
-#     xmin = None
-#     xmax = None
-#     ymin = None
-#     ymax = None
+N = 50
+df = pd.DataFrame(index=range(N))
+df['x'] = np.random.randn(N)
+df['y'] = np.random.randn(N)
+df['z'] = np.random.randn(N)
+print(df)
+print(df.loc[:,'z'].T)
 
-# # plot_slice(sys.argv[1], sys.argv[2], float(sys.argv[3]), save=save, file_prefix=file_prefix, show=show, amp_max=2300, xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax)
-# plot_slice(filename='/Users/yefanyu/Desktop/ProjectWorkSpace/Vis3d/A-8x16.csv',fixed_axis='y',axis_value=0.1)
-# x = np.array([1,2,3,4])
-# # print(np.nonzero(3))
-# _x,_y,_z,_amplitude = np.loadtxt('/Users/yefanyu/Desktop/ProjectWorkSpace/Vis3d/A-8x16.csv', delimiter=",").T
-# x = np.count_nonzero(_x == 0.01)
-# print(x)
+labels = []
+for i in range(N):
+    # label = df.loc[:,'z'].T
+    #
+    # label.columns = ['Row {0}'.format(i)]
+    # # .to_html() is unicode; so make leading 'u' go away with str()
+    labels.append(str('s'))
+
+points = ax.plot(df.x, df.y, 'o', color='b',
+                 mec='k', ms=15, mew=1, alpha=.6)
+
+ax.set_xlabel('x')
+ax.set_ylabel('y')
+ax.set_title('HTML tooltips', size=20)
+
+tooltip = plugins.PointHTMLTooltip(points[0], labels,
+                                   voffset=10, hoffset=10, css=css)
+plugins.connect(fig, tooltip)
+
+mpld3.show()
 
 

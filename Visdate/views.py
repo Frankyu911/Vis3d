@@ -16,8 +16,9 @@ def index(request):
 
     context_dict = {}
     result=Plot('A-8x16.csv','y',0.15)
+    result2=Plot('A-8x16.csv','y',0.10)
     context_dict['graph1'] = result
-
+    context_dict['graph2'] = result2
     return render(request, 'index.html', context=context_dict)
 
 
@@ -28,11 +29,15 @@ def change(request):
     return HttpResponse(content=result, content_type=json,status= None)
 
 def upload(request):
+    context_dict = {}
     if request.method == "POST":
         filename = request.FILES['file'].name
         axis=request.POST.get("axis")
-        result=Plot(filename,axis,0.01)
-    return render(request, 'index.html', {'graph1': result,})
+        values=request.POST.get("values")
+        nu=float(values)
+        result=Plot(filename,axis,nu)
+        context_dict['graph1'] = result
+    return render(request, 'index.html', context=context_dict)
 
 
 def save(request):
