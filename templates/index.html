@@ -32,8 +32,8 @@
             <h4>Axis</h4>
             <input type="text" name="axis" list="typelist" value="" placeholder="Select axis">
             <datalist id="typelist">
-　　              <option>x</option>
-　　              <option>y</option>
+　　             <option>x</option>
+　　             <option>y</option>
                  <option>z</option>
             </datalist>
         </div>
@@ -42,7 +42,6 @@
         <div class="form-group">
             <h4>Value</h4>
             <input type="number" name="values" value="" min="-100.000" max="100.000" step="0.001">
-
         </div>
         <div class="form-group">
             <h4>Upload</h4>
@@ -50,9 +49,14 @@
         </div>
     </form>
 
+    <div>
+        <h4>Information</h4>
+         <h5>{{info}}</h5>
+    </div>
+
 
     <h1 >实时监测input中值的变化</h1>
-        <input type="range" id="username" min="0.10" max="0.15" step="0.05">
+        <input type="range" id="slider" min="{{info.zmin}}" max="{{info.zmax}}" step="{{info.step}}">
         <div id="result"></div>
 
     <h4>Function</h4>
@@ -64,9 +68,9 @@
 
     <h4>Show</h4>
     <div id="fig1">graph1</div>
-
-
-
+    <div id="fig2">graph1</div>
+    <div id="fig3">graph1</div>
+    <div id="fig4">graph1</div>
 
 
 
@@ -76,9 +80,10 @@
     <script type="text/javascript" src="{% static 'js/myjs.js' %}"></script>
 
     <script type="text/javascript">
-       // mpld3.draw_figure("fig1", {{graph1 | safe}});
+       //mpld3.draw_figure("fig1", {{graph1 | safe}});
 
 
+        var jsl={{jsl}};
 
         //save as pdf
         $("#save").click(function(){
@@ -121,17 +126,33 @@
          });
 
          $(function(){
-            $('#username').bind('input propertychange', function() {
+            $('#slider').bind('input propertychange', function() {
                 $('#result').html($(this).val());
-                if ($('#username').val()==0.10){
+
+
+
+                if ($('#slider').val()==jsl[0]){
                     $('#fig1').empty();
-                    mpld3.draw_figure("fig1", {{graph2 | safe}});
-                 } else{
+                    mpld3.draw_figure("fig1", {{graph0 | safe}});
+                 } else if($('#slider').val()==jsl[1]){
                     $('#fig1').empty();
                     mpld3.draw_figure("fig1", {{graph1 | safe}});
+                 } else if($('#slider').val()==jsl[2]){
+                    $('#fig1').empty();
+                    mpld3.draw_figure("fig1", {{graph2 | safe}});
+                 } else if($('#slider').val()==jsl[3]){
+                    $('#fig1').empty();
+                    mpld3.draw_figure("fig1", {{graph3 | safe}});
+                 }else if($('#slider').val()==jsl[4]){
+                    $('#fig1').empty();
+                    mpld3.draw_figure("fig1", {{graph4 | safe}});
+                 } else{
+                    $('#fig1').empty();
+                    mpld3.draw_figure("fig1", {{graph5 | safe}});
                  }
+
                 });
-             $('#username').on
+             $('#slider').on
           });
 
     </script>
