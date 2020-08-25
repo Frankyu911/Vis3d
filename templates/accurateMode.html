@@ -39,12 +39,14 @@
 
     <div>
         <h4>Information</h4>
-        {% if showinfo == 'yes' %}
+        {% if show == 'yes' %}
         <h5>X range: {{info.xmax}} - {{info.xmin}} </h5>
         <h5>Y range: {{info.ymax}} - {{info.ymin}} </h5>
         <h5>Z range: {{info.zmax}} - {{info.zmin}} </h5>
         {% else %}
-        <h5>The Value is out of range.</h5>
+        <h5>{{errorinfo}}</h5>
+
+
         {% endif %}
     </div>
 

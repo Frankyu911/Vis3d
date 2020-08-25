@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6341b995-43d7-4d1f-aabf-ae35de111555" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Visdate/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plotinfo.py" beforeDir="false" afterPath="$PROJECT_DIR$/Plotinfo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Vis3d/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Vis3d/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Visdate/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Visdate/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/accurateMode.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/accurateMode.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/indextwpo.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/indextwpo.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,8 +15,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
