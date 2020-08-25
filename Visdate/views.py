@@ -13,8 +13,29 @@ from scipy.interpolate import griddata
 from Plot import Plot
 from Plotinfo import Plotinfo
 
-
 def index(request):
+    context_dict = {}
+
+    return render(request, 'index.html', context=context_dict)
+
+def accurateMode(request):
+    context_dict = {}
+    return render(request, 'accurateMode.html', context=context_dict)
+
+def compareMode(request):
+    context_dict = {}
+    return render(request, 'compareMode.html', context=context_dict)
+
+def calculateMode(request):
+    context_dict = {}
+    return render(request, 'calculateMode.html', context=context_dict)
+
+def easyMode(request):
+    context_dict = {}
+
+    return render(request, 'easyMode.html', context=context_dict)
+
+def home(request):
 
     context_dict = {}
     result=Plot('A-8x16.csv','y',0.15)
@@ -34,7 +55,7 @@ def index(request):
         context_dict['graph'+str(index)]=Plot('A-8x16.csv','z',round(x[index],2))
         jslist.append(round(x[index],2))
     context_dict['jsl']=jslist
-    return render(request, 'index.html', context=context_dict)
+    return render(request, 'indextwpo.html', context=context_dict)
 
 
 def change(request):
@@ -45,6 +66,24 @@ def change(request):
 
 def upload(request):
     context_dict = {}
+    result=Plot('A-8x16.csv','y',0.15)
+    result2=Plot('A-8x16.csv','y',0.10)
+    info = Plotinfo('A-8x16.csv','z')
+    context_dict['info']=info
+    zmin= info['zmin']
+    zmax= info['zmax']
+    step= info['step']
+
+
+    x = numpy.arange(zmin, zmax, step).tolist()
+    jslist=[]
+    #0到5 6个
+    for index in range(0,6):
+             # print(round(nu,2))
+        context_dict['graph'+str(index)]=Plot('A-8x16.csv','z',round(x[index],2))
+        jslist.append(round(x[index],2))
+    context_dict['jsl']=jslist
+    context_dict = {}
     if request.method == "POST":
         filename = request.FILES['file'].name
         axis=request.POST.get("axis")
@@ -52,7 +91,8 @@ def upload(request):
         nu=float(values)
         result=Plot(filename,axis,nu)
         context_dict['graph1'] = result
-    return render(request, 'index.html', context=context_dict)
+    return render(request, 'indextwpo.html', context=context_dict)
+
 
 
 def save(request):

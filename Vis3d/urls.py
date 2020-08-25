@@ -20,6 +20,10 @@ from Visdate import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('easyMode/', views.easyMode, name='easyMode'),
+    path('accurateMode/', views.accurateMode, name='accurateMode'),
+    path('compareMode/', views.compareMode, name='compareMode'),
+    path('calculateMode/', views.calculateMode, name='calculateMode'),
     path('change/',views.change,),
     path('upload/',views.upload,),
     path('save/',views.save,)
