@@ -30,6 +30,8 @@ def Plotinfo(filename, fixed_axis, levels=30, amp_min=0, amp_max=2500,
         result['ymax']=_y.max()
         result['zmin']=_x.min()
         result['zmax']=_x.max()
+        result['fixedmax']=_x.max()
+        result['fixedmin']=_x.min()
 
     elif fixed_axis in ["y", "Y"]:
         result['xmin']=_x.min()
@@ -38,6 +40,8 @@ def Plotinfo(filename, fixed_axis, levels=30, amp_min=0, amp_max=2500,
         result['ymax']=_z.max()
         result['zmin']=_y.min()
         result['zmax']=_y.max()
+        result['fixedmax']=_y.max()
+        result['fixedmin']=_y.min()
 
     else:
         result['xmin']=_x.min()
@@ -46,25 +50,29 @@ def Plotinfo(filename, fixed_axis, levels=30, amp_min=0, amp_max=2500,
         result['ymax']=_y.max()
         result['zmin']=_z.min()
         result['zmax']=_z.max()
-
+        result['fixedmax']=_z.max()
+        result['fixedmin']=_z.min()
     result['step']=round((result['zmax']-result['zmin'])/5,2)
+
     return result
 
 if __name__ == "__main__":
     info= Plotinfo('A-8x16.csv','z')
-    zmax= info['zmax']
-    zmin= info['zmin']
-    dif=(zmax-zmin)/5
-    difnu = round(dif,2)
-    x = numpy.arange(zmin, zmax, difnu).tolist()
 
-    context_dict={}
+    if info["fixedmin"] < 0 < info["fixedmax"]:
+            print("hah")
+    # info= Plotinfo('A-8x16.csv','z')
+    # zmax= info['zmax']
+    # zmin= info['zmin']
+    # dif=(zmax-zmin)/5
+    # difnu = round(dif,2)
+    # x = numpy.arange(zmin, zmax, difnu).tolist()
+    #
+    # context_dict={}
+    #
+    # for index in range(0,6):
+    #          # print(round(nu,2))
+    #     context_dict['graph'+str(index)]=round(x[index],2)
 
-    for index in range(0,6):
-             # print(round(nu,2))
-        context_dict['graph'+str(index)]=round(x[index],2)
-
-    print(context_dict)
-    print(info)
 
 

@@ -20,7 +20,29 @@ def index(request):
 
 def accurateMode(request):
     context_dict = {}
+    context_dict['showinfo'] = 'no'
     return render(request, 'accurateMode.html', context=context_dict)
+
+def accurateUpload(request):
+    context_dict = {}
+    if request.method == "POST":
+        filename = request.FILES['file'].name
+        axis=request.POST.get("axis")
+        values=request.POST.get("values")
+        info = Plotinfo(filename,axis)
+
+        if info["fixedmin"] <= float(values) <= info["fixedmax"]:
+            context_dict['showinfo'] = 'yes'
+            nu=float(values)
+            result=Plot(filename,axis,nu)
+            info = Plotinfo(filename,axis)
+            context_dict['info'] = info
+            context_dict['graph1'] = result
+            return render(request, 'accurateMode.html', context=context_dict)
+        else:
+            context_dict['showinfo'] = 'no'
+            return render(request, 'accurateMode.html', context=context_dict)
+
 
 def compareMode(request):
     context_dict = {}

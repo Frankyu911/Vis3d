@@ -26,5 +26,6 @@ urlpatterns = [
     path('calculateMode/', views.calculateMode, name='calculateMode'),
     path('change/',views.change,),
     path('upload/',views.upload,),
+    path('accurateUpload/',views.accurateUpload,),
     path('save/',views.save,)
 ]

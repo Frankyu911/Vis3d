@@ -6,6 +6,86 @@
 {% endblock %}
 
 {% block body_block %}
-    <h1>hahaha</h1>
+    <form class="form-inline" role="form" method="post" enctype="multipart/form-data" action="/accurateUpload/">
+        <div class="form-group">
+        {% csrf_token %}
+            <h4>File</h4>
+            <input type="file" id="inputFile" name="file" style="display:none" onchange="changeAgentContent()" />
+            <input type="text" value="" disabled id="inputFileAgent" />
+            <input type="button" onclick="document.getElementById('inputFile').click()" value="Browse..." />
+        </div>
 
+        <div class="form-group">
+            <h4>Axis</h4>
+            <input type="text" name="axis" list="typelist" value="" placeholder="Select axis">
+            <datalist id="typelist">
+　　             <option>x</option>
+　　             <option>y</option>
+                 <option>z</option>
+            </datalist>
+        </div>
+
+        <div class="form-group">
+            <h4>Value</h4>
+            <input type="number" name="values" value="" min="-100.000" max="100.000" step="0.001">
+        </div>
+
+        <div class="form-group">
+            <h4>Upload</h4>
+            <button type="submit" class="btn" id="btn">upload</button>
+        </div>
+
+    </form>
+
+    <div>
+        <h4>Information</h4>
+        {% if showinfo == 'yes' %}
+        <h5>X range: {{info.xmax}} - {{info.xmin}} </h5>
+        <h5>Y range: {{info.ymax}} - {{info.ymin}} </h5>
+        <h5>Z range: {{info.zmax}} - {{info.zmin}} </h5>
+        {% else %}
+        <h5>The Value is out of range.</h5>
+        {% endif %}
+    </div>
+
+
+
+    <h4>Function</h4>
+    <button id="show" class="btn">Show</button>
+    <button id="clean" class="btn">Clean</button>
+    <button id="save" class="btn">Save</button>
+
+    <h4>Show</h4>
+    <div id="fig1">graph1</div>
+
+    <!--Script-->
+    <script type="text/javascript" src="{% static 'js/myjs.js' %}"></script>
+    <script type="text/javascript">
+        mpld3.draw_figure("fig1", {{graph1 | safe}});
+
+        //save as pdf
+        $("#save").click(function(){
+            $.ajax({
+                url:"/save/",
+                type:"GET",
+                success:function (data) {
+                    alert(data.text);
+
+                    }
+                });
+        });
+
+        //show index page
+        $("#show").click(function(){
+            mpld3.draw_figure("fig1", {{graph1 | safe}});
+        });
+
+        //clean show
+        $("#clean").click(function(){
+            $('#fig1').empty();
+        });
+
+
+
+    </script>
 {% endblock %}
