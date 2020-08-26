@@ -32,7 +32,7 @@ def Plotinfo(filename, fixed_axis, levels=30, amp_min=0, amp_max=2500,
         result['zmax']=_x.max()
         result['fixedmax']=_x.max()
         result['fixedmin']=_x.min()
-
+        result['fixedaxis']='x'
     elif fixed_axis in ["y", "Y"]:
         result['xmin']=_x.min()
         result['xmax']=_x.max()
@@ -42,7 +42,7 @@ def Plotinfo(filename, fixed_axis, levels=30, amp_min=0, amp_max=2500,
         result['zmax']=_y.max()
         result['fixedmax']=_y.max()
         result['fixedmin']=_y.min()
-
+        result['fixedaxis']='y'
     else:
         result['xmin']=_x.min()
         result['xmax']=_x.max()
@@ -52,6 +52,7 @@ def Plotinfo(filename, fixed_axis, levels=30, amp_min=0, amp_max=2500,
         result['zmax']=_z.max()
         result['fixedmax']=_z.max()
         result['fixedmin']=_z.min()
+        result['fixedaxis']='z'
     result['step']=round((result['zmax']-result['zmin'])/5,2)
 
     return result

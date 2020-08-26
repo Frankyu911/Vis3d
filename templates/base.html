@@ -22,6 +22,10 @@
 
 <body class="container">
         <h2>3D Date Visualization Tool</h2>
+            <a href="{% url 'easyMode' %}"class="btn btn-info" role="button">Easy Mode</a>
+            <a href="{% url 'accurateMode' %}" class="btn btn-info" role="button">Accurate Mode</a>
+            <a href="{% url 'compareMode' %}" class="btn btn-info" role="button">Compare Mode</a>
+            <a href="{% url 'calculateMode' %}" class="btn btn-info" role="button">Calculate Mode</a>
         <div>
         {% block body_block %}
         {% endblock %}

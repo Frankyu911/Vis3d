@@ -43,14 +43,15 @@ def accurateUpload(request):
                 context_dict['graph1'] = result
                 return render(request, 'accurateMode.html', context=context_dict)
             else:
-                context_dict['errorinfo'] = "The Value is out of range. The value range of the axis you choose is "+ \
-                                            str(info["fixedmin"]) + " to " +str(info["fixedmax"])+'.'
+                context_dict['errorinfo'] = "The Value is out of range. The value range of the axis you choose is " + \
+                                            str(info["fixedmin"]) + " to " + str(info["fixedmax"])  + \
+                                            " (" + info["fixedaxis"] + ")" + '.'
 
                 return render(request, 'accurateMode.html', context=context_dict)
         except:
             context_dict['errorinfo'] = "You selected the wrong file or entered the wrong axis or missing an input"
-            context_dict['errornum'] = info["fixedmin"]
             return render(request, 'accurateMode.html', context=context_dict)
+
         else:
             return render(request, 'accurateMode.html', context=context_dict)
 
