@@ -53,7 +53,8 @@ def Plotinfo(filename, fixed_axis, levels=30, amp_min=0, amp_max=2500,
         result['fixedmax']=_z.max()
         result['fixedmin']=_z.min()
         result['fixedaxis']='z'
-    result['step']=round((result['zmax']-result['zmin'])/5,2)
+
+    result['step']=round((result['zmax']-result['zmin'])/10,2)
 
     return result
 

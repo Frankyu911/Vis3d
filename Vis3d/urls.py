@@ -27,5 +27,7 @@ urlpatterns = [
     path('change/',views.change,),
     path('upload/',views.upload,),
     path('accurateUpload/',views.accurateUpload,),
+    path('easyUpload/',views.easyUpload,),
+    path('calculateUpload/',views.calculateUpload,),
     path('save/',views.save,)
 ]

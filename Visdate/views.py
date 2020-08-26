@@ -12,7 +12,7 @@ from scipy.interpolate import griddata
 # for numpy array is not json serializable error  继承解码器
 from Plot import Plot
 from Plotinfo import Plotinfo
-
+from Plotcalculate import Plotcalculate
 
 def index(request):
     context_dict = {}
@@ -65,12 +65,43 @@ def calculateMode(request):
     context_dict = {}
     return render(request, 'calculateMode.html', context=context_dict)
 
+def calculateUpload(request):
+    context_dict = {}
+    if request.method == "POST":
+        filename = request.FILES['file'].name
+        x = request.POST.get("x_values")
+        y = request.POST.get("y_values")
+        z = request.POST.get("z_values")
+        result = Plotcalculate(filename,float(x),float(y),float(z))
+        print(x,y,z)
+        context_dict ['show'] = 'yes'
+        context_dict ['x'] = x
+        context_dict ['y'] = y
+        context_dict ['z'] = z
+        context_dict ['result'] = str(result)
+        return render(request, 'calculateMode.html', context=context_dict)
 
 def easyMode(request):
     context_dict = {}
 
     return render(request, 'easyMode.html', context=context_dict)
 
+def easyUpload(request):
+    context_dict = {}
+    if request.method == "POST":
+        filename = request.FILES['file'].name
+        axis = request.POST.get("axis")
+        info = Plotinfo(filename, axis)
+        zmin = info['zmin']
+        zmax = info['zmax']
+        context_dict['info'] = info
+        y = numpy.linspace(zmin,zmax,10,endpoint=True).tolist()
+        jslist = []
+        for index in range(0, 9):
+            context_dict['graph' + str(index)] = Plot(filename, axis, round(y[index], 2))
+            jslist.append(round(y[index], 2))
+        context_dict['jsl'] = jslist
+    return render(request, 'easyMode.html', context=context_dict)
 
 def home(request):
     context_dict = {}
