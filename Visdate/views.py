@@ -60,6 +60,42 @@ def compareMode(request):
     context_dict = {}
     return render(request, 'compareMode.html', context=context_dict)
 
+def compareUpload(request):
+    context_dict = {}
+    if request.method == "POST":
+        try:
+            filename = request.FILES['file'].name
+            axis = request.POST.get("axis")
+            values = request.POST.get("values")
+            filename_second = request.FILES['files'].name
+            axis_second = request.POST.get("axiss")
+            values_second = request.POST.get("valuess")
+            info = Plotinfo(filename, axis)
+            info_second = Plotinfo(filename, axis)
+            if info["fixedmin"] <= float(values) <= info["fixedmax"] and info_second["fixedmin"] <= float(values) <= info_second["fixedmax"] :
+                context_dict['show'] = 'yes'
+                nu = float(values)
+                nu_second = float(values_second)
+                result = Plot(filename, axis, nu)
+                result_second = Plot(filename_second, axis_second, nu_second)
+
+                context_dict['info'] = info
+                context_dict['info_second'] = info_second
+                context_dict['graph1'] = result
+                context_dict['graph2'] = result_second
+                return render(request, 'compareMode.html', context=context_dict)
+            else:
+                context_dict['errorinfo'] = "The Value is out of range. The value range of the axis you choose is " + \
+                                            str(info["fixedmin"]) + " to " + str(info["fixedmax"])  + \
+                                            " (" + info["fixedaxis"] + ")" + '.'
+
+                return render(request, 'compareMode.html', context=context_dict)
+        except:
+            context_dict['errorinfo'] = "You selected the wrong file or entered the wrong axis or missing an input"
+            return render(request, 'compareMode.html', context=context_dict)
+
+        else:
+            return render(request, 'compareMode.html', context=context_dict)
 
 def calculateMode(request):
     context_dict = {}

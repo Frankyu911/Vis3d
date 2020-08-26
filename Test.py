@@ -140,7 +140,7 @@ else:
 
 # # Generate plot title
 title =  "-" + fixed_axis + "=" + str(axis_value) + "m"
-
+plt.figure(figsize=(3,3))
 # Create new plot figure  fig是大图 ，ax是小图数组
 fig, ax = plt.subplots()
 

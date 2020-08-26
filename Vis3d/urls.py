@@ -29,5 +29,6 @@ urlpatterns = [
     path('accurateUpload/',views.accurateUpload,),
     path('easyUpload/',views.easyUpload,),
     path('calculateUpload/',views.calculateUpload,),
+    path('compareUpload/',views.compareUpload,),
     path('save/',views.save,)
 ]

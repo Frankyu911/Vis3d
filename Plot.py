@@ -92,7 +92,7 @@ def Plot(filename, fixed_axis, axis_value, levels=30, amp_min=0, amp_max=2500,
     title = filename.split("/")[-1] + "-" + fixed_axis + "=" + str(axis_value) + "m"
     # Create new plot figure  fig是大图 ，ax是小图数组
 
-    fig, ax = plt.subplots(nrows=1, ncols=1)
+    fig, ax = plt.subplots(nrows=1, ncols=1,figsize=(4.8,3.6))
 
 
     # # Create a contour plot   填充图像， cmap 显示图级，vmin到vmax颜色浮动，cm全称表示colormap，颜色库
