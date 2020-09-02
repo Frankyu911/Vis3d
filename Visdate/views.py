@@ -1,4 +1,5 @@
 import os
+import re
 
 import numpy
 from django.http import HttpResponse, JsonResponse
@@ -109,6 +110,7 @@ def calculateUpload(request):
         y = request.POST.get("y_values")
         z = request.POST.get("z_values")
         result = Plotcalculate(filename,float(x),float(y),float(z))
+        print(filename)
         print(x,y,z)
         context_dict ['show'] = 'yes'
         context_dict ['x'] = x
@@ -131,6 +133,7 @@ def easyUpload(request):
         zmin = info['zmin']
         zmax = info['zmax']
         context_dict['info'] = info
+        context_dict['filename'] = str(request.POST)
         y = numpy.linspace(zmin,zmax,10,endpoint=True).tolist()
         jslist = []
         for index in range(0, 9):
@@ -165,6 +168,15 @@ def change(request):
 
     return HttpResponse(content=result, content_type=json, status=None)
 
+def ajaxupload(request):
+    context_dict = {}
+    filename=request.GET.get("filename")
+    value=request.GET.get("value")
+    axis=request.GET.get("fixedaxis")
+    filearray=filename.split('\\')
+    file=filearray[-1]
+    result = Plot(file,axis,float(value))
+    return HttpResponse(content=result, content_type=json,status= None)
 
 def upload(request):
     context_dict = {}
@@ -217,3 +229,4 @@ def save(request):
 #                 $("#i3").val(data);}
 #             });
 #         });
+

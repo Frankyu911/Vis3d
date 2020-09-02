@@ -20,7 +20,7 @@ class NumpyEncoder(json.JSONEncoder):
 
 
 def Plot(filename, fixed_axis, axis_value, levels=30, amp_min=0, amp_max=2500,
-         save=False, file_prefix="", show=True, xmin=None, xmax=None, ymin=None, ymax=None):
+         save=False, file_prefix="", show=True, xmin=None, xmax=None, ymin=None, ymax=None,figsize=(6.4,4.8)):
      # Check fixed_axis has a valid value
     if fixed_axis not in ["x", "y", "z", "X", "Y", "Z"]:
         print("Error: Fixed axis must be x, y or z.")
@@ -91,8 +91,8 @@ def Plot(filename, fixed_axis, axis_value, levels=30, amp_min=0, amp_max=2500,
 
     title = filename.split("/")[-1] + "-" + fixed_axis + "=" + str(axis_value) + "m"
     # Create new plot figure  fig是大图 ，ax是小图数组
-
-    fig, ax = plt.subplots(nrows=1, ncols=1,figsize=(4.8,3.6))
+    # figsize =(6.4,4.8)
+    fig, ax = plt.subplots(nrows=1, ncols=1,figsize=figsize)
 
 
     # # Create a contour plot   填充图像， cmap 显示图级，vmin到vmax颜色浮动，cm全称表示colormap，颜色库

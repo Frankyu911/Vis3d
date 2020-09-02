@@ -13,7 +13,7 @@
         {% csrf_token %}
             <h4>File</h4>
             <input type="file" id="inputFile" name="file" style="display:none" onchange="changeAgentContent()" />
-            <input type="text" value="" disabled id="inputFileAgent" />
+            <input type="text" value="{{ filename }}" disabled id="inputFileAgent" />
             <input type="button" onclick="document.getElementById('inputFile').click()" value="Browse..." />
         </div>
         <div class="form-group">
