@@ -19,7 +19,7 @@ class NumpyEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, obj)
 
 
-def Plot(filename, fixed_axis, axis_value, levels=30, amp_min=0, amp_max=2500,
+def Plot(filename, fixed_axis, axis_value, levels=30, amp_min=0, amp_max=2500,color="magma",
          save=False, file_prefix="", show=True, xmin=None, xmax=None, ymin=None, ymax=None,figsize=(6.4,4.8)):
      # Check fixed_axis has a valid value
     if fixed_axis not in ["x", "y", "z", "X", "Y", "Z"]:
@@ -95,8 +95,17 @@ def Plot(filename, fixed_axis, axis_value, levels=30, amp_min=0, amp_max=2500,
     fig, ax = plt.subplots(nrows=1, ncols=1,figsize=figsize)
 
 
+    if color == "magma":
+        colormap=plt.cm.magma
+    if color == "inferno":
+        colormap=plt.cm.inferno
+    if color == "plasma":
+        colormap=plt.cm.plasma
+    if color == "viridis":
+        colormap=plt.cm.viridis
+
     # # Create a contour plot   填充图像， cmap 显示图级，vmin到vmax颜色浮动，cm全称表示colormap，颜色库
-    cs = ax.contourf(xi, yi, amplitudei, levels=levels,cmap=plt.cm.magma, vmin=amp_min, vmax=amp_max)
+    cs = ax.contourf(xi, yi, amplitudei, levels=levels,cmap=colormap, vmin=amp_min, vmax=amp_max)
 
     #反转x轴
     ax.invert_xaxis()

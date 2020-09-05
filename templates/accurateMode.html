@@ -21,7 +21,7 @@
             <datalist id="typelist">
 　　             <option>x</option>
 　　             <option>y</option>
-                 <option>z</option>
+                <option>z</option>
             </datalist>
         </div>
 
@@ -31,34 +31,60 @@
         </div>
 
         <div class="form-group">
-            <h4>Upload</h4>
+            <h4>Upload File</h4>
             <button type="submit" class="btn" id="btn">upload</button>
         </div>
 
     </form>
 
     <div>
+
+        <h4>Current File</h4>
+        <h5> Filename:<input id="fn" value="{{info.filename}}" disabled>
+             Axis:<input id="ax" value="{{info.axis}}" disabled>
+             Value:<input id="vl" value="{{info.value}}" disabled>
+        </h5>
         <h4>Information</h4>
         {% if show == 'yes' %}
-        <h5>X range: {{info.xmax}} - {{info.xmin}} </h5>
-        <h5>Y range: {{info.ymax}} - {{info.ymin}} </h5>
-        <h5>Z range: {{info.zmax}} - {{info.zmin}} </h5>
+        <h5>X range: {{info.xmax}} - {{info.xmin}}
+            Y range: {{info.ymax}} - {{info.ymin}}
+            Z range: {{info.zmax}} - {{info.zmin}} </h5>
         {% else %}
         <h5>{{errorinfo}}</h5>
-
-
         {% endif %}
+
     </div>
 
 
 
+    <h4></h4>
+
+
     <h4>Function</h4>
-    <button id="show" class="btn">Show</button>
-    <button id="clean" class="btn">Clean</button>
-    <button id="save" class="btn">Save</button>
+    <div>
+    <h5>
+         Color:<input type="text" list="colormap" id="co" value="" placeholder="magma">
+           <datalist id="colormap">
+　　            <option>magma</option>
+　　            <option>inferno</option>
+               <option>plasma</option>
+               <option>viridis</option>
+            </datalist>
+         AmpMax:<input type="number" id="amax" value="" step="1" placeholder="2500">
+         AmpMin:<input type="number" id="amin" value="" step="1" placeholder="0">
+         Level:<input type="number" id="le" value="" step="1" placeholder="30">
+         Xmax:<input type="number" id="xmax" value="" step="0.01" placeholder="None">
+         Xmin:<input type="number" id="xmin" value="" step="0.01" placeholder="None">
+         Ymax:<input type="number" id="ymax" value="" step="0.01" placeholder="None">
+         Ymin:<input type="number" id="ymin" value="" step="0.01" placeholder="None">
+    </h5>
+    <button id="update" class="btn btn-default">Update</button>
+    <button id="clean" class="btn btn-default">Clean</button>
+    <button id="save" class="btn btn-default">Save</button>
+    </div>
 
     <h4>Show</h4>
-    <div id="fig1">graph1</div>
+    <div id="fig1"></div>
 
     <!--Script-->
     <script type="text/javascript" src="{% static 'js/myjs.js' %}"></script>
@@ -70,24 +96,40 @@
             $.ajax({
                 url:"/save/",
                 type:"GET",
+                data:{"filename":$("#fn").val(),"value":$("#vl").val(),"axis":$("#ax").val(),
+                    "color":$("#co").val(),"amax":$("#amax").val(),"amin":$("#amin").val(),"level":$("#le").val(),
+                    "xmax":$("#xmax").val(),"xmin":$("#xmin").val(),"ymax":$("#ymax").val(),"ymin":$("#ymin").val()},
                 success:function (data) {
                     alert(data.text);
-
                     }
                 });
         });
 
-        //show index page
-        $("#show").click(function(){
-            mpld3.draw_figure("fig1", {{graph1 | safe}});
+        //Custom Update
+        $("#update").click(function(){
+            $.ajax({
+                url:"/update/",
+                type:"GET",
+                data:{"filename":$("#fn").val(),"value":$("#vl").val(),"axis":$("#ax").val(),
+                    "color":$("#co").val(),"amax":$("#amax").val(),"amin":$("#amin").val(),"level":$("#le").val(),
+                    "xmax":$("#xmax").val(),"xmin":$("#xmin").val(),"ymax":$("#ymax").val(),"ymin":$("#ymin").val()},
+                success:function (data) {
+                    if(data.error == "yes"){
+                        alert(data.text);
+                    }else{
+                    $('#fig1').empty();
+                    mpld3.draw_figure("fig1", data);
+                    alert("Update successfully.");
+                        }
+                    }
+                });
         });
 
-        //clean show
+
+        //clean the show
         $("#clean").click(function(){
             $('#fig1').empty();
         });
-
-
 
     </script>
 {% endblock %}

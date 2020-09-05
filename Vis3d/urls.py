@@ -24,11 +24,10 @@ urlpatterns = [
     path('accurateMode/', views.accurateMode, name='accurateMode'),
     path('compareMode/', views.compareMode, name='compareMode'),
     path('calculateMode/', views.calculateMode, name='calculateMode'),
-    path('change/',views.change,),
-    path('upload/',views.upload,),
     path('accurateUpload/',views.accurateUpload,),
     path('easyUpload/',views.easyUpload,),
     path('calculateUpload/',views.calculateUpload,),
     path('compareUpload/',views.compareUpload,),
-    path('save/',views.save,)
+    path('save/',views.save,),
+    path('update/',views.update,)
 ]

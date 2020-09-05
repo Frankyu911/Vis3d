@@ -64,7 +64,7 @@ table, th, td
 """
 fixed_axis = "y"
 axis_value = 0.1
-levels=130
+levels=13
 amp_min=0
 amp_max=2500
 save=False

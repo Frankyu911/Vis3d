@@ -12,7 +12,7 @@ import numpy as np
 from mpld3.plugins import PointHTMLTooltip
 from scipy.interpolate import griddata
 
-def Plotinfo(filename, fixed_axis, levels=30, amp_min=0, amp_max=2500,
+def Plotinfo(filename, fixed_axis,axis_value=None, levels=30, amp_min=0, amp_max=2500,
          save=False, file_prefix="", show=True, xmin=None, xmax=None, ymin=None, ymax=None):
 
     result={}
@@ -55,14 +55,18 @@ def Plotinfo(filename, fixed_axis, levels=30, amp_min=0, amp_max=2500,
         result['fixedaxis']='z'
 
     result['step']=round((result['zmax']-result['zmin'])/10,2)
-
+    result['filename']= str(filename)
+    result['axis']= str(fixed_axis)
+    result['value']= str(axis_value)
     return result
 
 if __name__ == "__main__":
-    info= Plotinfo('A-8x16.csv','z')
+    info= Plotinfo('A-8x16.csv','z',0.01)
 
     if info["fixedmin"] < 0 < info["fixedmax"]:
             print("hah")
+    print(info['filename'])
+    print(info['value'])
     # info= Plotinfo('A-8x16.csv','z')
     # zmax= info['zmax']
     # zmin= info['zmin']

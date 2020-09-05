@@ -34,12 +34,11 @@ def accurateUpload(request):
             filename = request.FILES['file'].name
             axis = request.POST.get("axis")
             values = request.POST.get("values")
-            info = Plotinfo(filename, axis)
+            info = Plotinfo(filename, axis, axis_value=values)
             if info["fixedmin"] <= float(values) <= info["fixedmax"]:
                 context_dict['show'] = 'yes'
                 nu = float(values)
                 result = Plot(filename, axis, nu)
-                info = Plotinfo(filename, axis)
                 context_dict['info'] = info
                 context_dict['graph1'] = result
                 return render(request, 'accurateMode.html', context=context_dict)
@@ -53,8 +52,6 @@ def accurateUpload(request):
             context_dict['errorinfo'] = "You selected the wrong file or entered the wrong axis or missing an input"
             return render(request, 'accurateMode.html', context=context_dict)
 
-        else:
-            return render(request, 'accurateMode.html', context=context_dict)
 
 
 def compareMode(request):
@@ -77,8 +74,8 @@ def compareUpload(request):
                 context_dict['show'] = 'yes'
                 nu = float(values)
                 nu_second = float(values_second)
-                result = Plot(filename, axis, nu)
-                result_second = Plot(filename_second, axis_second, nu_second)
+                result = Plot(filename, axis, nu,figsize=(4.5,3.8))
+                result_second = Plot(filename_second, axis_second, nu_second,figsize=(4.5,3.8))
 
                 context_dict['info'] = info
                 context_dict['info_second'] = info_second
@@ -121,46 +118,33 @@ def calculateUpload(request):
 
 def easyMode(request):
     context_dict = {}
-
+    context_dict['show'] = 'no'
     return render(request, 'easyMode.html', context=context_dict)
 
 def easyUpload(request):
     context_dict = {}
     if request.method == "POST":
-        filename = request.FILES['file'].name
-        axis = request.POST.get("axis")
-        info = Plotinfo(filename, axis)
-        zmin = info['zmin']
-        zmax = info['zmax']
-        context_dict['info'] = info
-        context_dict['filename'] = str(request.POST)
-        y = numpy.linspace(zmin,zmax,10,endpoint=True).tolist()
-        jslist = []
-        for index in range(0, 9):
-            context_dict['graph' + str(index)] = Plot(filename, axis, round(y[index], 2))
-            jslist.append(round(y[index], 2))
-        context_dict['jsl'] = jslist
-    return render(request, 'easyMode.html', context=context_dict)
+        try:
+            filename = request.FILES['file'].name
+            axis = request.POST.get("axis")
+            info = Plotinfo(filename, axis)
+            zmin = info['zmin']
+            zmax = info['zmax']
+            context_dict['info'] = info
+            context_dict['filename'] = str(request.POST)
+            y = numpy.linspace(zmin,zmax,10,endpoint=True).tolist()
+            jslist = []
+            context_dict['show'] = 'yes'
+            for index in range(0, 10):
+                context_dict['graph' + str(index)] = Plot(filename, axis, round(y[index], 2))
+                jslist.append(round(y[index], 2))
+                print(index)
+            context_dict['jsl'] = jslist
+            return render(request, 'easyMode.html', context=context_dict)
+        except:
+            context_dict['errorinfo'] = "Please select the correct file and axis"
+            return render(request, 'easyMode.html', context=context_dict)
 
-def home(request):
-    context_dict = {}
-    result = Plot('A-8x16.csv', 'y', 0.15)
-    result2 = Plot('A-8x16.csv', 'y', 0.10)
-    info = Plotinfo('A-8x16.csv', 'z')
-    context_dict['info'] = info
-    zmin = info['zmin']
-    zmax = info['zmax']
-    step = info['step']
-
-    x = numpy.arange(zmin, zmax, step).tolist()
-    jslist = []
-    # 0到5 6个
-    for index in range(0, 6):
-        # print(round(nu,2))
-        context_dict['graph' + str(index)] = Plot('A-8x16.csv', 'z', round(x[index], 2))
-        jslist.append(round(x[index], 2))
-    context_dict['jsl'] = jslist
-    return render(request, 'indextwpo.html', context=context_dict)
 
 
 def change(request):
@@ -178,42 +162,93 @@ def ajaxupload(request):
     result = Plot(file,axis,float(value))
     return HttpResponse(content=result, content_type=json,status= None)
 
-def upload(request):
-    context_dict = {}
-    result = Plot('A-8x16.csv', 'y', 0.15)
-    result2 = Plot('A-8x16.csv', 'y', 0.10)
-    info = Plotinfo('A-8x16.csv', 'z')
-    context_dict['info'] = info
-    zmin = info['zmin']
-    zmax = info['zmax']
-    step = info['step']
-
-    x = numpy.arange(zmin, zmax, step).tolist()
-    jslist = []
-    # 0到5 6个
-    for index in range(0, 6):
-        # print(round(nu,2))
-        context_dict['graph' + str(index)] = Plot('A-8x16.csv', 'z', round(x[index], 2))
-        jslist.append(round(x[index], 2))
-    context_dict['jsl'] = jslist
-    context_dict = {}
-    if request.method == "POST":
-        filename = request.FILES['file'].name
-        axis = request.POST.get("axis")
-        values = request.POST.get("values")
-        nu = float(values)
-        result = Plot(filename, axis, nu)
-        context_dict['graph1'] = result
-    return render(request, 'indextwpo.html', context=context_dict)
 
 
 def save(request):
-    context_dict = {}
-    Plot('A-8x16.csv', 'y', 0.1, show=False, save=True)
-    context_dict['text'] = 'save success'
+    try:
+        context_dict = {}
+        filename=request.GET.get("filename")
+        value=request.GET.get("value")
+        axis=request.GET.get("axis")
+        info=Plotinfo(filename,axis,value)
+        color=request.GET.get("color")
+        if color=="":
+            color="magma"
+        amax=request.GET.get("amax")
+        if amax=="":
+            amax=2500
+        amin=request.GET.get("amin")
+        if amin=="":
+            amin=0
+        level=request.GET.get("level")
+        if level == "":
+            level=30
+        xmax=request.GET.get("xmax")
+        if xmax == "":
+            xmax=info['xmax']
+        xmin=request.GET.get("xmin")
+        if xmin == "":
+            xmin=info['xmin']
+        ymax=request.GET.get("ymax")
+        if ymax == "":
+            ymax=info['ymax']
+        ymin=request.GET.get("ymin")
+        if ymin == "":
+            ymin=info['ymin']
+        result = Plot(filename, axis, float(value),levels=int(level),color=color,amp_max=int(amax),
+                      amp_min=int(amin),xmax=float(xmax),xmin=float(xmin),ymax=float(ymax),ymin=float(ymin),save=True)
+        context_dict['text'] = 'Save success （To local folder）'
+        return JsonResponse(context_dict, safe=False)
+    except:
+        context_dict = {}
+        context_dict['text'] = 'Save failed, please enter the correct information!'
+        return JsonResponse(context_dict, safe=False)
+
 
     return JsonResponse(context_dict, safe=False)
-#
+
+
+def update(request):
+    try:
+        filename=request.GET.get("filename")
+        value=request.GET.get("value")
+        axis=request.GET.get("axis")
+        info=Plotinfo(filename,axis,value)
+        color=request.GET.get("color")
+        if color=="":
+            color="magma"
+        amax=request.GET.get("amax")
+        if amax=="":
+            amax=2500
+        amin=request.GET.get("amin")
+        if amin=="":
+            amin=0
+        level=request.GET.get("level")
+        if level == "":
+            level=30
+        xmax=request.GET.get("xmax")
+        if xmax == "":
+            xmax=info['xmax']
+        xmin=request.GET.get("xmin")
+        if xmin == "":
+            xmin=info['xmin']
+        ymax=request.GET.get("ymax")
+        if ymax == "":
+            ymax=info['ymax']
+        ymin=request.GET.get("ymin")
+        if ymin == "":
+            ymin=info['ymin']
+        result = Plot(filename, axis, float(value),levels=int(level),color=color,amp_max=int(amax),
+                      amp_min=int(amin),xmax=float(xmax),xmin=float(xmin),ymax=float(ymax),ymin=float(ymin))
+        return HttpResponse(content=result, content_type=json,status= None)
+    except:
+        context_dict = {}
+        context_dict['error'] = 'yes'
+        context_dict['text'] = 'Update failed, please enter the correct information!'
+        return JsonResponse(context_dict, safe=False)
+
+
+# ,xmax=float(xmax),xmin=float(xmin),ymax=float(ymax),ymin=float(ymin)
 # def ajax_add(request):
 #     i1 = int(request.GET.get("i1"))
 #     i2 = int(request.GET.get("i2"))

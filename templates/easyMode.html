@@ -13,7 +13,7 @@
         {% csrf_token %}
             <h4>File</h4>
             <input type="file" id="inputFile" name="file" style="display:none" onchange="changeAgentContent()" />
-            <input type="text" value="{{ filename }}" disabled id="inputFileAgent" />
+            <input type="text" value="" disabled id="inputFileAgent" />
             <input type="button" onclick="document.getElementById('inputFile').click()" value="Browse..." />
         </div>
         <div class="form-group">
@@ -39,14 +39,31 @@
 
     <div>
         <h4>Information</h4>
-         <h5>{{info}}</h5>
+        {% if show == 'yes' %}
+        <h5>X range: {{info.xmax}} - {{info.xmin}} </h5>
+        <h5>Y range: {{info.ymax}} - {{info.ymin}} </h5>
+        <h5>Z range: {{info.zmax}} - {{info.zmin}} </h5>
+        {% else %}
+        <h5>{{errorinfo}}</h5>
 
+
+        {% endif %}
     </div>
 
-
-    <h4>Slider</h4>
-        <input type="range" class="custom-range" id="slider" min="{{info.zmin}}" max="{{info.zmax}}" step="{{info.step}}">
-    <h5>value:<div id="result"></div></h5>
+    <div>
+     <h4>Range 10</h4>
+    <input type="button" value=" 0 " onclick="range()" />
+    <input type="button" value=" 1 " onclick="range1()" />
+    <input type="button" value=" 2 " onclick="range2()" />
+    <input type="button" value=" 3 " onclick="range3()" />
+    <input type="button" value=" 4 " onclick="range4()" />
+    <input type="button" value=" 5 " onclick="range5()" />
+    <input type="button" value=" 6 " onclick="range6()" />
+    <input type="button" value=" 7 " onclick="range7()" />
+    <input type="button" value=" 8 " onclick="range8()" />
+    <input type="button" value=" 9 " onclick="range9()" />
+        <h5>Current Value:<div id="result"></div></h5>
+    </div>
 
     <h4>Show</h4>
     <div id="fig1"></div>
@@ -61,49 +78,61 @@
 
     <script type="text/javascript">
         mpld3.draw_figure("fig1", {{graph1 | safe}});
+        $('#result').html({{jsl.0}});
 
-         var jsl={{jsl}};
+        function range() {
+           $('#fig1').empty();
+           mpld3.draw_figure("fig1", {{graph0 | safe}});
+           $('#result').html({{jsl.0}});
+        }
+         function range1() {
+           $('#fig1').empty();
+           mpld3.draw_figure("fig1", {{graph1 | safe}});
+           $('#result').html({{jsl.1}});
+        }
+         function range2() {
+           $('#fig1').empty();
+           mpld3.draw_figure("fig1", {{graph2 | safe}});
+           $('#result').html({{jsl.2}});
+        }
+         function range3() {
+           $('#fig1').empty();
+           mpld3.draw_figure("fig1", {{graph3 | safe}});
+           $('#result').html({{jsl.3}});
+        }
+         function range4() {
+           $('#fig1').empty();
+           mpld3.draw_figure("fig1", {{graph4 | safe}});
+           $('#result').html({{jsl.4}});
+        }
+         function range5() {
+           $('#fig1').empty();
+           mpld3.draw_figure("fig1", {{graph5 | safe}});
+           $('#result').html({{jsl.5}});
+        }
+        function range6() {
+           $('#fig1').empty();
+           mpld3.draw_figure("fig1", {{graph6 | safe}});
+           $('#result').html({{jsl.6}});
+        }
+         function range7() {
+           $('#fig1').empty();
+           mpld3.draw_figure("fig1", {{graph7 | safe}});
+           $('#result').html({{jsl.7}});
+        }
+         function range8() {
+           $('#fig1').empty();
+           mpld3.draw_figure("fig1", {{graph8 | safe}});
+           $('#result').html({{jsl.8}});
+        }
+         function range9() {
+           $('#fig1').empty();
+           mpld3.draw_figure("fig1", {{graph9 | safe}});
+           $('#result').html({{jsl.9}});
+        }
 
-         $(function(){
-            $('#slider').bind('input propertychange', function() {
-                $('#result').html($(this).val());
 
 
-
-                if ($('#slider').val()==jsl[0]){
-                    $('#fig1').empty();
-                    mpld3.draw_figure("fig1", {{graph0 | safe}});
-                 } else if($('#slider').val()==jsl[1]){
-                    $('#fig1').empty();
-                    mpld3.draw_figure("fig1", {{graph1 | safe}});
-                 } else if($('#slider').val()==jsl[2]){
-                    $('#fig1').empty();
-                    mpld3.draw_figure("fig1", {{graph2 | safe}});
-                 } else if($('#slider').val()==jsl[3]){
-                    $('#fig1').empty();
-                    mpld3.draw_figure("fig1", {{graph3 | safe}});
-                 }else if($('#slider').val()==jsl[4]){
-                    $('#fig1').empty();
-                    mpld3.draw_figure("fig1", {{graph4 | safe}});
-                 }else if($('#slider').val()==jsl[5]){
-                    $('#fig1').empty();
-                    mpld3.draw_figure("fig1", {{graph5 | safe}});
-                 }else if($('#slider').val()==jsl[6]){
-                    $('#fig1').empty();
-                    mpld3.draw_figure("fig1", {{graph6 | safe}});
-                 }else if($('#slider').val()==jsl[7]){
-                    $('#fig1').empty();
-                    mpld3.draw_figure("fig1", {{graph7 | safe}});
-                 }else if($('#slider').val()==jsl[8]){
-                    $('#fig1').empty();
-                    mpld3.draw_figure("fig1", {{graph8 | safe}});
-                 }else if($('#slider').val()==jsl[9]){
-                    $('#fig1').empty();
-                    mpld3.draw_figure("fig1", {{graph9 | safe}});
-                 }
-                });
-             $('#slider').on
-          });
 
 
     </script>
