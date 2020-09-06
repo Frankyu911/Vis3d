@@ -1,19 +1,9 @@
 import os
 
-import mpld3
-import numpy
-import pandas as pd
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
-import matplotlib.pyplot as plt
-from mpld3 import plugins, fig_to_html, save_html, fig_to_dict
-import json
 import numpy as np
-from mpld3.plugins import PointHTMLTooltip
-from scipy.interpolate import griddata
 
-def Plotinfo(filename, fixed_axis,axis_value=None, levels=30, amp_min=0, amp_max=2500,
-         save=False, file_prefix="", show=True, xmin=None, xmax=None, ymin=None, ymax=None):
+
+def Plotinfo(filename, fixed_axis,axis_value=None,):
 
     result={}
      # Check fixed_axis has a valid value
@@ -59,26 +49,4 @@ def Plotinfo(filename, fixed_axis,axis_value=None, levels=30, amp_min=0, amp_max
     result['axis']= str(fixed_axis)
     result['value']= str(axis_value)
     return result
-
-if __name__ == "__main__":
-    info= Plotinfo('A-8x16.csv','z',0.01)
-
-    if info["fixedmin"] < 0 < info["fixedmax"]:
-            print("hah")
-    print(info['filename'])
-    print(info['value'])
-    # info= Plotinfo('A-8x16.csv','z')
-    # zmax= info['zmax']
-    # zmin= info['zmin']
-    # dif=(zmax-zmin)/5
-    # difnu = round(dif,2)
-    # x = numpy.arange(zmin, zmax, difnu).tolist()
-    #
-    # context_dict={}
-    #
-    # for index in range(0,6):
-    #          # print(round(nu,2))
-    #     context_dict['graph'+str(index)]=round(x[index],2)
-
-
 

@@ -1,16 +1,7 @@
-import os
-import re
-
 import numpy
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
-import matplotlib.pyplot as plt
-from mpld3 import plugins, fig_to_html, save_html, fig_to_dict
 import json
-import numpy as np
-from scipy.interpolate import griddata
-
-# for numpy array is not json serializable error  继承解码器
 from Plot import Plot
 from Plotinfo import Plotinfo
 from Plotcalculate import Plotcalculate
@@ -52,7 +43,7 @@ def accurateUpload(request):
 
                 return render(request, 'accurateMode.html', context=context_dict)
         except:
-            context_dict['errorinfo'] = "You selected the wrong file or entered the wrong axis or missing an input"
+            context_dict['errorinfo'] = "You selected the wrong file or entered the wrong axis or missed an input"
             return render(request, 'accurateMode.html', context=context_dict)
 
 
@@ -68,29 +59,23 @@ def compareUpload(request):
             filename = request.FILES['file'].name
             axis = request.POST.get("axis")
             values = request.POST.get("values")
+
             filename_second = request.FILES['files'].name
             axis_second = request.POST.get("axiss")
             values_second = request.POST.get("valuess")
             info = Plotinfo(filename, axis,values)
-            info_second = Plotinfo(filename, axis,values_second)
-            if info["fixedmin"] <= float(values) <= info["fixedmax"] and info_second["fixedmin"] <= float(values) <= info_second["fixedmax"] :
-                context_dict['show'] = 'yes'
-                nu = float(values)
-                nu_second = float(values_second)
-                result = Plot(filename, axis, nu,figsize=(4.5,3.8))
-                result_second = Plot(filename_second, axis_second, nu_second,figsize=(4.5,3.8))
+            info_second = Plotinfo(filename_second, axis_second,values_second)
+            context_dict['show'] = 'yes'
+            nu = float(values)
+            nu_second = float(values_second)
+            result = Plot(filename, axis, nu,figsize=(4.5,3.8))
+            result_second = Plot(filename_second, axis_second, nu_second,figsize=(4.5,3.8))
+            context_dict['info'] = info
+            context_dict['info_second'] = info_second
+            context_dict['graph1'] = result
+            context_dict['graph2'] = result_second
+            return render(request, 'compareMode.html', context=context_dict)
 
-                context_dict['info'] = info
-                context_dict['info_second'] = info_second
-                context_dict['graph1'] = result
-                context_dict['graph2'] = result_second
-                return render(request, 'compareMode.html', context=context_dict)
-            else:
-                context_dict['errorinfo'] = "The Value is out of range. The value range of the axis you choose is " + \
-                                            str(info["fixedmin"]) + " to " + str(info["fixedmax"])  + \
-                                            " (" + info["fixedaxis"] + ")" + '.'
-
-                return render(request, 'compareMode.html', context=context_dict)
         except:
             context_dict['errorinfo'] = "You selected the wrong file or entered the wrong axis or missing an input"
             return render(request, 'compareMode.html', context=context_dict)
@@ -110,12 +95,16 @@ def calculateUpload(request):
             y = request.POST.get("y_values")
             z = request.POST.get("z_values")
             result = Plotcalculate(filename,float(x),float(y),float(z))
+
             context_dict ['filename'] = str(filename)
             context_dict ['show'] = 'yes'
             context_dict ['x'] = x
             context_dict ['y'] = y
             context_dict ['z'] = z
-            context_dict ['result'] = str(result)
+            if result == None:
+                context_dict ['result'] = "No result"
+            else:
+                context_dict ['result'] = str(result)
             return render(request, 'calculateMode.html', context=context_dict)
     except:
             context_dict['errorinfo'] = "You selected the wrong file or entered the wrong axis or missing an input"
@@ -146,7 +135,7 @@ def easyUpload(request):
             context_dict['jsl'] = jslist
             return render(request, 'easyMode.html', context=context_dict)
         except:
-            context_dict['errorinfo'] = "Please select the correct file and axis"
+            context_dict['errorinfo'] = "Please upload the correct file and choose a valid axis"
             return render(request, 'easyMode.html', context=context_dict)
 
 
