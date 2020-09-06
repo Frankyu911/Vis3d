@@ -6,85 +6,90 @@
 {% endblock %}
 
 {% block body_block %}
-    <form class="form-inline" role="form" method="post" enctype="multipart/form-data" action="/accurateUpload/">
-        <div class="form-group">
-        {% csrf_token %}
-            <h4>File</h4>
-            <input type="file" id="inputFile" name="file" style="display:none" onchange="changeAgentContent()" />
-            <input type="text" value="" disabled id="inputFileAgent" />
-            <input type="button" onclick="document.getElementById('inputFile').click()" value="Browse..." />
-        </div>
+     <div class="col-md-12 column">
+         <H3 class="text-success" style="text-align:center">Accurate Mode</H3>
+            <h4>Upload Your File</h4>
+			<form class="form-inline" role="form" method="post" enctype="multipart/form-data" action="/accurateUpload/">
+				<div class="form-group">
+                      {% csrf_token %}
+                    <label for="inputFile">File</label><input type="file" id="inputFile" name="file" style="display:none" onchange="changeAgentContent()" />
+                    <input type="text" value="" disabled id="inputFileAgent" />
+                    <input type="button"  class="btn btn-sm"  onclick="document.getElementById('inputFile').click()" value="Browse..." />
+				</div>
+				<div class="form-group">
+					 <label for="axisinput">Axis</label><input type="text" id="axisinput" name="axis" list="typelist" value="" placeholder="Select axis">
+                 <datalist id="typelist">
+    　　             <option>x</option>
+    　　             <option>y</option>
+                     <option>z</option>
+                </datalist>
+				</div>
+                <div class="form-group">
+                    <label for="valueinput">Value</label>
+                    <input type="number" id="valueinput" name="values" value=""  step="0.01">
+                 </div>
+                <button type="submit"  class="btn btn-sm"  id="btn">Upload</button>
+                    <p class="help-block">
+						Please upload the correct file (.csv) and enter a valid value.
+					</p>
+            </form>
 
-        <div class="form-group">
-            <h4>Axis</h4>
-            <input type="text" name="axis" list="typelist" value="" placeholder="Select axis">
-            <datalist id="typelist">
-　　             <option>x</option>
-　　             <option>y</option>
-                <option>z</option>
-            </datalist>
-        </div>
 
-        <div class="form-group">
-            <h4>Value</h4>
-            <input type="number" name="values" value=""  step="0.01">
-        </div>
-
-        <div class="form-group">
-            <h4>Upload File</h4>
-            <button type="submit" class="btn" id="btn">upload</button>
-        </div>
-
-    </form>
-
-    <div>
-
-        <h4>Current File</h4>
-        <h5> Filename:<input id="fn" value="{{info.filename}}" disabled>
-             Axis:<input id="ax" value="{{info.axis}}" disabled>
-             Value:<input id="vl" value="{{info.value}}" disabled>
-        </h5>
-        <h4>Information</h4>
-        {% if show == 'yes' %}
-        <h5>X range: {{info.xmax}} - {{info.xmin}}
-            Y range: {{info.ymax}} - {{info.ymin}}
-            Z range: {{info.zmax}} - {{info.zmin}} </h5>
-        {% else %}
-        <h5>{{errorinfo}}</h5>
-        {% endif %}
 
     </div>
 
 
+    <div class="col-md-12 column">
 
-    <h4></h4>
+        <h4>Current File</h4>
+        <h5> Filename:<input id="fn" class="btn btn-sm" value="{{info.filename}}" disabled>
+             Axis:<input id="ax" class="btn btn-sm" value="{{info.axis}}" disabled>
+             Value:<input id="vl" class="btn btn-sm" value="{{info.value}}" disabled>
+        </h5>
+        <h4>Information</h4>
+        {% if show == 'yes' %}
+        <h5>X range: {{info.xmax}} - {{info.xmin}} </h5>
+        <h5>Y range: {{info.ymax}} - {{info.ymin}} </h5>
+        <h5>Z range: {{info.zmax}} - {{info.zmin}} </h5>
+        {% else %}
+        <h5 class="text-danger">{{errorinfo}}</h5>
+        {% endif %}
+    </div>
 
 
+    <div class="col-md-12 column">
     <h4>Function</h4>
-    <div>
-    <h5>
-         Color:<input type="text" list="colormap" id="co" value="" placeholder="magma">
+    </div>
+    <div class="col-md-12 column">
+        <h5>
+         Color:<input type="text" list="colormap" id="co" value="" placeholder="magma" style="width:120px;">
            <datalist id="colormap">
 　　            <option>magma</option>
 　　            <option>inferno</option>
                <option>plasma</option>
                <option>viridis</option>
             </datalist>
-         AmpMax:<input type="number" id="amax" value="" step="1" placeholder="2500">
-         AmpMin:<input type="number" id="amin" value="" step="1" placeholder="0">
-         Level:<input type="number" id="le" value="" step="1" placeholder="30">
-         Xmax:<input type="number" id="xmax" value="" step="0.01" placeholder="None">
-         Xmin:<input type="number" id="xmin" value="" step="0.01" placeholder="None">
-         Ymax:<input type="number" id="ymax" value="" step="0.01" placeholder="None">
-         Ymin:<input type="number" id="ymin" value="" step="0.01" placeholder="None">
-    </h5>
-    <button id="update" class="btn btn-default">Update</button>
-    <button id="clean" class="btn btn-default">Clean</button>
-    <button id="save" class="btn btn-default">Save</button>
+         AmplitudeMax:<input type="number" id="amax" value="" step="1" placeholder="2500" style="width:120px;">
+         AmplitudeMin:<input type="number" id="amin" value="" step="1" placeholder="0" style="width:120px;">
+         Level:<input type="number" id="le" value="" step="1" placeholder="30" style="width:120px;">
+        </h5>
+        </div>
+      <div class="col-md-12 column">
+          <h5>
+         Xmax:<input type="number"  id="xmax" value="" step="0.01" placeholder="None" style="width:120px;">
+         Xmin:<input type="number" id="xmin" value="" step="0.01" placeholder="None" style="width:120px;">
+         Ymax:<input type="number" id="ymax" value="" step="0.01" placeholder="None" style="width:120px;">
+         Ymin:<input type="number" id="ymin" value="" step="0.01" placeholder="None" style="width:120px;">
+          </h5>
+    <button id="update"  class="btn btn-sm" >Update</button>
+    <button id="clean"  class="btn btn-sm" >Clean</button>
+    <button id="save"  class="btn btn-sm" >Save</button>
+    <h4>Show</h4>
     </div>
 
-    <h4>Show</h4>
-    <div id="fig1"></div>
+    <div id="fig1" class="col-md-12 column">
+
+    </div>
 
     <!--Script-->
     <script type="text/javascript" src="{% static 'js/myjs.js' %}"></script>

@@ -6,54 +6,52 @@
 {% endblock %}
 
 {% block body_block %}
-     <form class="form-inline" role="form" method="post" enctype="multipart/form-data" action="/calculateUpload/">
+     <div class="col-md-12 column">
+         <H3 class="text-warning" style="text-align:center">Calculate Mode</H3>
+         <h4>Upload Your File</h4>
+                <form class="form-inline" role="form" method="post" enctype="multipart/form-data" action="/calculateUpload/">
             <div class="form-group">
-            {% csrf_token %}
-                <h4>File</h4>
-                <input type="file" id="inputFile" name="file" style="display:none" onchange="changeAgentContent()" />
-                <input type="text" value="" disabled id="inputFileAgent" />
-                <input type="button" onclick="document.getElementById('inputFile').click()" value="Browse..." />
+                      {% csrf_token %}
+                    <label for="inputFile">File</label><input type="file" id="inputFile" name="file" style="display:none" onchange="changeAgentContent()" />
+                    <input type="text" value="" disabled id="inputFileAgent" />
+                    <input type="button"  class="btn btn-sm"  onclick="document.getElementById('inputFile').click()" value="Browse..." />
+				</div>
+            <div class="form-group">
+                <label for="xinput">X</label>
+                <input type="number" id="xinput" name="x_values" value=""  step="0.01">
             </div>
 
             <div class="form-group">
-                <h4>X</h4>
-                <input type="text" name="x_values" value=""  step="0.01">
+                <label for="yinput">Y</label>
+                <input type="number" id="yinput" name="y_values" value=""  step="0.01">
             </div>
 
             <div class="form-group">
-                <h4>Y</h4>
-                <input type="text" name="y_values" value=""  step="0.01">
+                <label for="zinput">Z</label>
+                <input type="number" id="zinput" name="z_values" value=""  step="0.01">
             </div>
 
-            <div class="form-group">
-                <h4>Z</h4>
-                <input type="text" name="z_values" value=""  step="0.01">
-            </div>
-
-            <div class="form-group">
-                <h4>Upload</h4>
-                <button type="submit" class="btn" id="btn">upload</button>
-            </div>
-
+            <button type="submit"  class="btn btn-sm"  id="btn">upload</button>
+                <p class="help-block">
+                    Please upload the correct file (.csv) and enter a valid value.
+                </p>
         </form>
 
         <div>
             <h4>Information</h4>
             {% if show == 'yes' %}
+            <h5> Filename:<input id="fn" class="btn btn-sm" value="{{filename}}" disabled>
             <h5>X : {{x}}  </h5>
             <h5>Y : {{y}}  </h5>
             <h5>Z : {{z}}  </h5>
             <h5>Amplitudes : {{result}}</h5>
-
             {% else %}
-            <h5>{{errorinfo}}</h5>
+            <h5 class="text-danger">{{errorinfo}}</h5>
 
 
             {% endif %}
         </div>
-
-
-
+     </div>
         <!--Script-->
         <script type="text/javascript" src="{% static 'js/myjs.js' %}"></script>
         <script type="text/javascript">

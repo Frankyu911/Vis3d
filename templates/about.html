@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title_block %}
+    About
+{% endblock %}
+
+{% block body_block %}
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+		<img alt="100x100" src="{% static 'files/aboutphoto.jpg' %}"height="350" width="700"style="margin-left: 100px;" />
+			<dl class="dl-horizontal">
+				<dd>
+					&emsp;
+				</dd>
+				<h4>
+				<dt>
+					Project
+				</dt>
+				<dd>
+					3D data sets visualization
+				</dd>
+				<dt>
+					Student
+				</dt>
+				<dd>
+					Fanyu Ye (2448797y)
+				</dd>
+
+				<dt>
+					Supervisor
+				</dt>
+				<dd>
+					Euan Freeman
+				</dd>
+				<dt>
+					Description
+				</dt>
+				<dd>
+				 	This tool is designed for supervisors to analyse the data.
+					Most of the experimental files come from a research project with Huawei.
+					The main function is based on Mpld3 (JavaScript library).
+				</dd>
+				<dt>
+					Notes
+				</dt>
+				<dd>
+					1.The uploaded file must be a .csv file, and it must be stored at the same
+						level as your project’s manage.py script.
+				</dd>
+				<dd>
+					2.
+				</dd>
+				</h4>
+			</dl>
+		</div>
+	</div>
+</div>
+{% endblock %}

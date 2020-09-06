@@ -29,5 +29,6 @@ urlpatterns = [
     path('calculateUpload/',views.calculateUpload,),
     path('compareUpload/',views.compareUpload,),
     path('save/',views.save,),
-    path('update/',views.update,)
+    path('update/',views.update,),
+    path('about/',views.about,name='about')
 ]

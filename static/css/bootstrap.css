@@ -6755,3 +6755,7 @@ button.close {
   }
 }
 /*# sourceMappingURL=bootstrap.css.map */
+.bg {
+       background:url("/Users/yefanyu/Desktop/ProjectWorkSpace/Vis3d/static/files/aboutphoto.jpg") no-repeat center;
+       background-size:contain;
+}

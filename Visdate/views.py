@@ -20,6 +20,9 @@ def index(request):
 
     return render(request, 'index.html', context=context_dict)
 
+def about(request):
+    context_dict = {}
+    return render(request, 'about.html', context=context_dict)
 
 def accurateMode(request):
     context_dict = {}
@@ -68,8 +71,8 @@ def compareUpload(request):
             filename_second = request.FILES['files'].name
             axis_second = request.POST.get("axiss")
             values_second = request.POST.get("valuess")
-            info = Plotinfo(filename, axis)
-            info_second = Plotinfo(filename, axis)
+            info = Plotinfo(filename, axis,values)
+            info_second = Plotinfo(filename, axis,values_second)
             if info["fixedmin"] <= float(values) <= info["fixedmax"] and info_second["fixedmin"] <= float(values) <= info_second["fixedmax"] :
                 context_dict['show'] = 'yes'
                 nu = float(values)
@@ -92,8 +95,7 @@ def compareUpload(request):
             context_dict['errorinfo'] = "You selected the wrong file or entered the wrong axis or missing an input"
             return render(request, 'compareMode.html', context=context_dict)
 
-        else:
-            return render(request, 'compareMode.html', context=context_dict)
+
 
 def calculateMode(request):
     context_dict = {}
@@ -101,21 +103,23 @@ def calculateMode(request):
 
 def calculateUpload(request):
     context_dict = {}
-    if request.method == "POST":
-        filename = request.FILES['file'].name
-        x = request.POST.get("x_values")
-        y = request.POST.get("y_values")
-        z = request.POST.get("z_values")
-        result = Plotcalculate(filename,float(x),float(y),float(z))
-        print(filename)
-        print(x,y,z)
-        context_dict ['show'] = 'yes'
-        context_dict ['x'] = x
-        context_dict ['y'] = y
-        context_dict ['z'] = z
-        context_dict ['result'] = str(result)
-        return render(request, 'calculateMode.html', context=context_dict)
-
+    try:
+        if request.method == "POST":
+            filename = request.FILES['file'].name
+            x = request.POST.get("x_values")
+            y = request.POST.get("y_values")
+            z = request.POST.get("z_values")
+            result = Plotcalculate(filename,float(x),float(y),float(z))
+            context_dict ['filename'] = str(filename)
+            context_dict ['show'] = 'yes'
+            context_dict ['x'] = x
+            context_dict ['y'] = y
+            context_dict ['z'] = z
+            context_dict ['result'] = str(result)
+            return render(request, 'calculateMode.html', context=context_dict)
+    except:
+            context_dict['errorinfo'] = "You selected the wrong file or entered the wrong axis or missing an input"
+            return render(request, 'calculateMode.html', context=context_dict)
 def easyMode(request):
     context_dict = {}
     context_dict['show'] = 'no'
@@ -144,24 +148,6 @@ def easyUpload(request):
         except:
             context_dict['errorinfo'] = "Please select the correct file and axis"
             return render(request, 'easyMode.html', context=context_dict)
-
-
-
-def change(request):
-    result = Plot('A-8x16.csv', 'y', 0.1)
-
-    return HttpResponse(content=result, content_type=json, status=None)
-
-def ajaxupload(request):
-    context_dict = {}
-    filename=request.GET.get("filename")
-    value=request.GET.get("value")
-    axis=request.GET.get("fixedaxis")
-    filearray=filename.split('\\')
-    file=filearray[-1]
-    result = Plot(file,axis,float(value))
-    return HttpResponse(content=result, content_type=json,status= None)
-
 
 
 def save(request):
@@ -205,8 +191,6 @@ def save(request):
         return JsonResponse(context_dict, safe=False)
 
 
-    return JsonResponse(context_dict, safe=False)
-
 
 def update(request):
     try:
@@ -246,22 +230,4 @@ def update(request):
         context_dict['error'] = 'yes'
         context_dict['text'] = 'Update failed, please enter the correct information!'
         return JsonResponse(context_dict, safe=False)
-
-
-# ,xmax=float(xmax),xmin=float(xmin),ymax=float(ymax),ymin=float(ymin)
-# def ajax_add(request):
-#     i1 = int(request.GET.get("i1"))
-#     i2 = int(request.GET.get("i2"))
-#     ret = i1 + i2
-#     return JsonResponse(ret, safe=False)
-
-# $("#b1").on("click", function () {
-#             $.ajax({
-#             url:"/ajax_add/",
-#             type:"GET",
-#             data:{"i1":$("#i1").val(),"i2":$("#i2").val()},
-#             success:function (data) {
-#                 $("#i3").val(data);}
-#             });
-#         });
 

@@ -7,59 +7,66 @@
 
 {% block body_block %}
     			<div class="jumbotron">
-				<h1>
-					Hello, world!
-				</h1>
+				<h2>
+					Welcome！
+				</h2>
 				<p>
-					This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.
+					 Visualization tool for 3D data sets.
 				</p>
 				<p>
-					 <a class="btn btn-primary btn-large" href="#">Learn more</a>
+					 <a class="btn btn-primary btn-large" href="{% url 'about' %}">About</a>
 				</p>
 			</div>
        <div class="row clearfix">
 		<div class="col-md-6 column">
-			<h2>
-				Heading
+			<h2 class="text-primary">
+				Easy Mode
 			</h2>
 			<p>
-				Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+				There are ten ranges of choices in this mode.
+				It can simply select files and axes for visualization.
+				By selecting each range, user can browse the file structure roughly.
 			</p>
 			<p>
-				 <a class="btn" href="#">View details »</a>
+				 <a class="btn" href="{% url 'easyMode' %}">View details »</a>
 			</p>
 		</div>
 		<div class="col-md-6 column">
-			<h2>
-				Heading
+			<h2 class="text-success">
+				Accurate Mode
 			</h2>
 			<p>
-				Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+				This mode provides a visualization function for precise operation of a file.
+				Users can input parameters accurately for visualization.
+				For example, change the color, change the axis, change the level and so on.
 			</p>
 			<p>
-				 <a class="btn" href="#">View details »</a>
+				 <a class="btn" href="{% url 'accurateMode' %}" >View details »</a>
 			</p>
 		</div>
 		<div class="col-md-6 column">
-			<h2>
-				Heading
+			<h2 class="text-muted">
+				Compare Mode
 			</h2>
 			<p>
-				Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+				Two side by side images can be displayed on the same page to give users a different feeling.
+				Therefore, user also need to upload two files, or the same file with different values.
 			</p>
 			<p>
-				 <a class="btn" href="#">View details »</a>
+				 <a class="btn" href="{% url 'compareMode' %}">View details »</a>
 			</p>
 		</div>
            		<div class="col-md-6 column">
-			<h2>
-				Heading
+			<h2 class="text-warning">
+				Calculate Mode
 			</h2>
 			<p>
-				Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+				Upload the file with the value of each axis ,
+				and the calculation results can be accurate to all digits after the decimal point.
+
 			</p>
 			<p>
-				 <a class="btn" href="#">View details »</a>
+				 <a class="btn" href="{% url 'calculateMode' %}" >View details »</a>
 			</p>
 		</div>
 	</div>

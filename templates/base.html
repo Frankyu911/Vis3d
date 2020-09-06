@@ -5,8 +5,9 @@
     <!--  meta tag -->
     <meta charset="UTF-8">
     <!--  css + js -->
+	<link type="text/css" href="{% static 'css/mycss.css' %}" rel="stylesheet">
     <link type="text/css" href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
-    <link type="text/css" href="{% static 'css/mycss.css' %}" rel="stylesheet">
+
     <script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/d3.v5.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/mpld3.v0.5.1.js' %}"></script>
@@ -15,44 +16,41 @@
 <head>
     <title>
     {% block title_block %}
-        3D Data Visualization
+        3D Data Sets Visualization
     {% endblock %}
     </title>
 </head>
-
-<body class="container">
+<body class="bk">
 <div class="container">
 	<div class="row clearfix">
 		<div class="col-md-12 column">
 			<nav class="navbar navbar-default" role="navigation">
 				<div class="navbar-header">
-					 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="{% url 'index' %}" >3D Visualization Tool</a>
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" ><h4 >3D Data sets Visualization Tool</h4></a>
 				</div>
 
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav navbar-right">
+
 						<li>
-							 <a href="{% url 'easyMode' %}" >Easy Mode</a>
+							 <a href="{% url 'index' %}" ><h5 class="text-danger">Home</h5></a>
 						</li>
 						<li>
-							<a href="{% url 'accurateMode' %}" >Accurate Mode</a>
+							 <a href="{% url 'easyMode' %}" ><h5 class="text-primary">Easy Mode</h5></a>
 						</li>
 						<li>
-                            <a href="{% url 'compareMode' %}" >Compare Mode</a>
+							<a href="{% url 'accurateMode' %}" ><h5 class="text-success">Accurate Mode</h5></a>
 						</li>
 						<li>
-                         <a href="{% url 'calculateMode' %}" >Calculate Mode</a>
+                            <a href="{% url 'compareMode' %}" ><h5 class="text-muted">Compare Mode</h5></a>
+						</li>
+						<li>
+                         <a href="{% url 'calculateMode' %}" ><h5 class="text-warning">Calculate Mode</h5></a>
 						</li>
                         <li>
-                         <a href="#" >About</a>
+                         <a href="{% url 'about' %}" ><h5 class="text-warning">About</h5></a>
 						</li>
 					</ul>
-<!--					<form class="navbar-form navbar-left" role="search">-->
-<!--						<div class="form-group">-->
-<!--							<input type="text" class="form-control" />-->
-<!--						</div> <button type="submit" class="btn btn-default">Submit</button>-->
-<!--					</form>-->
-
 				</div>
 
 			</nav>
@@ -62,7 +60,13 @@
 	</div>
 
 </div>
+<style type="text/css">
 
+body {background-color:#ced4d9}
+
+
+
+</style>
 
 
 </body>

@@ -6,67 +6,71 @@
 {% endblock %}
 
 {% block body_block %}
+    <div class="col-md-12 column">
+            <H3 class="text-primary" style="text-align:center">Easy Mode</H3>
+            <h4 >Upload Your File</h4>
+			<form class="form-inline" role="form" method="post" enctype="multipart/form-data" action="/easyUpload/">
+				<div class="form-group">
+                      {% csrf_token %}
+                    <label for="inputFile">File</label><input type="file" id="inputFile" name="file" style="display:none" onchange="changeAgentContent()" />
+                    <input type="text" value="" disabled id="inputFileAgent" />
+                    <input type="button" class="btn btn-sm"  onclick="document.getElementById('inputFile').click()" value="Browse..." />
+				</div>
+				<div class="form-group">
+					 <label for="axisinput">Axis</label><input type="text" id="axisinput" name="axis" list="typelist" value="" placeholder="Select axis">
+                 <datalist id="typelist">
+    　　             <option>x</option>
+    　　             <option>y</option>
+                     <option>z</option>
+                </datalist>
+				</div>
+                <button type="submit"  class="btn btn-sm"  id="btn">upload</button>
+					<p class="help-block">
+						Please upload the correct file (.csv) and enter a valid value.
+					</p>
+			</form>
+    </div>
 
-    <h4>Upload Your File</h4>
-    <form class="form-inline" role="form" method="post" enctype="multipart/form-data" action="/easyUpload/">
-        <div class="form-group">
-        {% csrf_token %}
-            <h4>File</h4>
-            <input type="file" id="inputFile" name="file" style="display:none" onchange="changeAgentContent()" />
-            <input type="text" value="" disabled id="inputFileAgent" />
-            <input type="button" onclick="document.getElementById('inputFile').click()" value="Browse..." />
-        </div>
-        <div class="form-group">
-            <h4>Axis</h4>
-            <input type="text" name="axis" list="typelist" value="" placeholder="Select axis">
-            <datalist id="typelist">
-　　             <option>x</option>
-　　             <option>y</option>
-                 <option>z</option>
-            </datalist>
-        </div>
+    <div class="col-md-12 column">
+     <h4>Current File</h4>
+        <h5> Filename:<input id="fn" class="btn btn-sm" value="{{info.filename}}" disabled>
+             Axis:<input id="ax" class="btn btn-sm" value="{{info.axis}}" disabled>
+        </h5>
+    </div>
 
-
-<!--        <div class="form-group">-->
-<!--            <h4>Value</h4>-->
-<!--            <input type="number" name="values" value=""  step="0.01">-->
-<!--        </div>-->
-        <div class="form-group">
-            <h4>Upload</h4>
-            <button type="submit" class="btn" id="btn">upload</button>
-        </div>
-    </form>
-
-    <div>
+    <div class="col-md-12 column">
         <h4>Information</h4>
         {% if show == 'yes' %}
         <h5>X range: {{info.xmax}} - {{info.xmin}} </h5>
         <h5>Y range: {{info.ymax}} - {{info.ymin}} </h5>
         <h5>Z range: {{info.zmax}} - {{info.zmin}} </h5>
         {% else %}
-        <h5>{{errorinfo}}</h5>
-
+        <h5 class="text-danger">{{errorinfo}}</h5>
 
         {% endif %}
     </div>
 
-    <div>
+    <div class="col-md-12 column">
      <h4>Range 10</h4>
-    <input type="button" value=" 0 " onclick="range()" />
-    <input type="button" value=" 1 " onclick="range1()" />
-    <input type="button" value=" 2 " onclick="range2()" />
-    <input type="button" value=" 3 " onclick="range3()" />
-    <input type="button" value=" 4 " onclick="range4()" />
-    <input type="button" value=" 5 " onclick="range5()" />
-    <input type="button" value=" 6 " onclick="range6()" />
-    <input type="button" value=" 7 " onclick="range7()" />
-    <input type="button" value=" 8 " onclick="range8()" />
-    <input type="button" value=" 9 " onclick="range9()" />
+    <input type="button" class="btn btn-sm" value=" 0 " onclick="range()" />
+    <input type="button" class="btn btn-sm"  value=" 1 " onclick="range1()" />
+    <input type="button" class="btn btn-sm"  value=" 2 " onclick="range2()" />
+    <input type="button" class="btn btn-sm"  value=" 3 " onclick="range3()" />
+    <input type="button" class="btn btn-sm"  value=" 4 " onclick="range4()" />
+    <input type="button" class="btn btn-sm"  value=" 5 " onclick="range5()" />
+    <input type="button" class="btn btn-sm"  value=" 6 " onclick="range6()" />
+    <input type="button" class="btn btn-sm"  value=" 7 " onclick="range7()" />
+    <input type="button" class="btn btn-sm"  value=" 8 " onclick="range8()" />
+    <input type="button" class="btn btn-sm"  value=" 9 " onclick="range9()" />
         <h5>Current Value:<div id="result"></div></h5>
+        <h5>Current Range:<div id="range"></div></h5>
     </div>
 
-    <h4>Show</h4>
-    <div id="fig1"></div>
+    <div class="col-md-12 column"><h4>Show</h4>
+    </div>
+    <div id="fig1" class="col-md-12 column">
+
+    </div>
 
 
 
@@ -77,63 +81,70 @@
     <script type="text/javascript" src="{% static 'js/myjs.js' %}"></script>
 
     <script type="text/javascript">
-        mpld3.draw_figure("fig1", {{graph1 | safe}});
+        mpld3.draw_figure("fig1", {{graph0 | safe}});
         $('#result').html({{jsl.0}});
+        $('#range').html("0");
 
         function range() {
            $('#fig1').empty();
            mpld3.draw_figure("fig1", {{graph0 | safe}});
            $('#result').html({{jsl.0}});
+           $('#range').html("0");
         }
          function range1() {
            $('#fig1').empty();
            mpld3.draw_figure("fig1", {{graph1 | safe}});
            $('#result').html({{jsl.1}});
+           $('#range').html("1");
         }
          function range2() {
            $('#fig1').empty();
            mpld3.draw_figure("fig1", {{graph2 | safe}});
            $('#result').html({{jsl.2}});
+           $('#range').html("2");
         }
          function range3() {
            $('#fig1').empty();
            mpld3.draw_figure("fig1", {{graph3 | safe}});
            $('#result').html({{jsl.3}});
+           $('#range').html("3");
         }
          function range4() {
            $('#fig1').empty();
            mpld3.draw_figure("fig1", {{graph4 | safe}});
            $('#result').html({{jsl.4}});
+           $('#range').html("4");
         }
          function range5() {
            $('#fig1').empty();
            mpld3.draw_figure("fig1", {{graph5 | safe}});
            $('#result').html({{jsl.5}});
+           $('#range').html("5");
         }
         function range6() {
            $('#fig1').empty();
            mpld3.draw_figure("fig1", {{graph6 | safe}});
            $('#result').html({{jsl.6}});
+           $('#range').html("6");
         }
          function range7() {
            $('#fig1').empty();
            mpld3.draw_figure("fig1", {{graph7 | safe}});
            $('#result').html({{jsl.7}});
+           $('#range').html("7");
         }
          function range8() {
            $('#fig1').empty();
            mpld3.draw_figure("fig1", {{graph8 | safe}});
            $('#result').html({{jsl.8}});
+           $('#range').html("8");
         }
          function range9() {
            $('#fig1').empty();
            mpld3.draw_figure("fig1", {{graph9 | safe}});
            $('#result').html({{jsl.9}});
+           $('#range').html("9");
         }
-
-
-
-
 
     </script>
 

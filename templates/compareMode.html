@@ -6,18 +6,19 @@
 {% endblock %}
 
 {% block body_block %}
+<div class="col-md-12 column">
+    <H3 class="text-muted" style="text-align:center">Compare Mode</H3>
+     <h4>Upload Your File</h4>
      <form class="form-inline" role="form" method="post" enctype="multipart/form-data" action="/compareUpload/">
-        <div class="form-group">
-        {% csrf_token %}
-            <h4>First File</h4>
-            <input type="file" id="inputFile" name="file" style="display:none" onchange="changeAgentContent()" />
-            <input type="text" value="" disabled id="inputFileAgent" />
-            <input type="button" onclick="document.getElementById('inputFile').click()" value="Browse..." />
-        </div>
+            <div class="form-group">
+                  {% csrf_token %}
+                <label for="inputFile">First File &emsp;&nbsp;</label><input type="file" id="inputFile" name="file" style="display:none" onchange="changeAgentContent()" />
+                <input type="text" value="" disabled id="inputFileAgent" />
+                <input type="button"  class="btn btn-sm"  onclick="document.getElementById('inputFile').click()" value="Browse..." />
+            </div>
 
         <div class="form-group">
-            <h4>Axis</h4>
-            <input type="text" name="axis" list="typelist1" value="" placeholder="Select axis">
+            <label for="axisinput">Axis</label><input type="text" id="axisinput" name="axis" list="typelist1" value="" placeholder="Select axis">
             <datalist id="typelist1">
 　　             <option>x</option>
 　　             <option>y</option>
@@ -26,65 +27,63 @@
         </div>
 
         <div class="form-group">
-            <h4>Value</h4>
-            <input type="number" name="values" value=""  step="0.01">
+               <label for="valueinput">Value</label>
+               <input type="number" id="valueinput" name="values" value=""  step="0.01">
         </div>
 
         <br>
+         <div class="form-group">
+                <label for="inputFiles">Second File</label><input type="file" id="inputFiles" name="files" style="display:none" onchange="changeAgentContents()" />
+                <input type="text" value="" disabled id="inputFileAgents" />
+                <input type="button"  class="btn btn-sm"  onclick="document.getElementById('inputFiles').click()" value="Browse..." />
+         </div>
 
         <div class="form-group">
-            <h4>Second File </h4>
-            <input type="file" id="inputFiles" name="files" style="display:none" onchange="changeAgentContents()" />
-            <input type="text" value="" disabled id="inputFileAgents" />
-            <input type="button" onclick="document.getElementById('inputFiles').click()" value="Browse..." />
-        </div>
-
-        <div class="form-group">
-            <h4>Axis</h4>
-            <input type="text" name="axiss" list="typelist" value="" placeholder="Select axis">
+            <label for="axisinput1">Axis</label><input type="text" id="axisinput1" name="axiss" list="typelist" value="" placeholder="Select axis">
             <datalist id="typelist">
 　　             <option>x</option>
 　　             <option>y</option>
                  <option>z</option>
             </datalist>
         </div>
-
         <div class="form-group">
-            <h4>Value</h4>
-            <input type="number" name="valuess" value=""  step="0.01">
+               <label for="valueinput1">Value</label>
+               <input type="number" id="valueinput1" name="valuess" value=""  step="0.01">
         </div>
 
-        <div class="form-group">
-            <h4>Upload</h4>
-            <button type="submit" class="btn" id="btn">upload</button>
-        </div>
+            <button type="submit" class="btn btn-sm"  id="btn">upload</button>
+            <p class="help-block">
+						Please upload the correct file (.csv) and enter a valid value.
+					</p>
 
     </form>
-
-    <div>
+</div>
+    <div class="col-md-12 column">
         <h4>Information</h4>
         {% if show == 'yes' %}
 
 
         <h5>The First File: </h5>
+        <h5> Filename:<input id="fn" class="btn btn-sm" value="{{info.filename}}" disabled>
+             Axis:<input id="ax" class="btn btn-sm" value="{{info.axis}}" disabled>
+            Value:<input id="vl" class="btn btn-sm" value="{{info.value}}" disabled></h5>
         <h5>X range: {{info.xmax}} - {{info.xmin}} Y range: {{info.ymax}} - {{info.ymin}} Z range: {{info.zmax}} - {{info.zmin}} </h5>
-        <h5>The Second File: </h5>
+        <h5> Filename:<input  class="btn btn-sm" value="{{info_second.filename}}" disabled>
+             Axis:<input  class="btn btn-sm" value="{{info_second.axis}}" disabled>
+            Value:<input  class="btn btn-sm" value="{{info_second.value}}" disabled></h5>
         <h5>X range: {{info_second.xmax}} - {{info_second.xmin}} Y range: {{info_second.ymax}} - {{info_second.ymin}}  Z range: {{info_second.zmax}} - {{info_second.zmin}}</h5>
 
-        </div>
+
         {% else %}
 
-        <h5>{{errorinfo}}</h5>
+        <h5 class="text-danger">{{errorinfo}}</h5>
 
 
         {% endif %}
+    <h4>Show</h4>
     </div>
 
-
-    <h4>Show</h4>
-<!--    <div id="fig1"></div> <div id="fig2"></div>-->
-    <div class="app">
-
+    <div class="col-md-12 column">
     <div id="fig1" style="float:left;"></div>
 
     <div id="fig2" style="float:left;margin-left:10px;"></div>
