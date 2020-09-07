@@ -1,17 +1,19 @@
-#3d data sets visualization tool
+# Vis3d
 
-Steps to use tool：
+    3D data sets visualization tool
 
-1.clone or download;
-2.install requirement.txt;
-3.run server.
+    Steps to use tool：
 
-Some Useful commands:
+    1.clone or download;
+    2.install requirement.txt;
+    3.run server.
 
-Run server: python manage.py runserver
+    Some Useful commands:
 
-Run test: python manage.py test Visdata
+    Run server: python manage.py runserver
 
-Generate : pip freeze > requirements.txt
+    Run test: python manage.py test Visdata
 
-Install requirement: pip install -r requirement.txt
+    Generate : pip freeze > requirements.txt
+
+    Install requirement: pip install -r requirement.txt
