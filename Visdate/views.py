@@ -35,14 +35,17 @@ def accurateUpload(request):
                 result = Plot(filename, axis, nu)
                 context_dict['info'] = info
                 context_dict['graph1'] = result
+                context_dict['vis_success'] = 'True'
                 return render(request, 'accurateMode.html', context=context_dict)
             else:
+                context_dict['vis_success'] = 'False'
                 context_dict['errorinfo'] = "The Value is out of range. The value range of the axis you choose is " + \
                                             str(info["fixedmin"]) + " to " + str(info["fixedmax"])  + \
                                             " (" + info["fixedaxis"] + ")" + '.'
 
                 return render(request, 'accurateMode.html', context=context_dict)
         except:
+            context_dict['vis_success'] = 'False'
             context_dict['errorinfo'] = "You selected the wrong file or entered the wrong axis or missed an input"
             return render(request, 'accurateMode.html', context=context_dict)
 
@@ -74,9 +77,11 @@ def compareUpload(request):
             context_dict['info_second'] = info_second
             context_dict['graph1'] = result
             context_dict['graph2'] = result_second
+            context_dict['vis_success'] = 'True'
             return render(request, 'compareMode.html', context=context_dict)
 
         except:
+            context_dict['vis_success'] = 'False'
             context_dict['errorinfo'] = "You selected the wrong file or entered the wrong axis or missing an input"
             return render(request, 'compareMode.html', context=context_dict)
 
@@ -103,10 +108,13 @@ def calculateUpload(request):
             context_dict ['z'] = z
             if result == None:
                 context_dict ['result'] = "No result"
+                context_dict['vis_success'] = 'True'
             else:
+                context_dict['vis_success'] = 'False'
                 context_dict ['result'] = str(result)
             return render(request, 'calculateMode.html', context=context_dict)
     except:
+            context_dict['vis_success'] = 'False'
             context_dict['errorinfo'] = "You selected the wrong file or entered the wrong axis or missing an input"
             return render(request, 'calculateMode.html', context=context_dict)
 def easyMode(request):
@@ -131,11 +139,12 @@ def easyUpload(request):
             for index in range(0, 10):
                 context_dict['graph' + str(index)] = Plot(filename, axis, round(y[index], 2))
                 jslist.append(round(y[index], 2))
-                print(index)
             context_dict['jsl'] = jslist
+            context_dict['vis_success'] = 'True'
             return render(request, 'easyMode.html', context=context_dict)
         except:
-            context_dict['errorinfo'] = "Please upload the correct file and choose a valid axis"
+            context_dict['vis_success'] = 'False'
+            context_dict['errorinfo'] = "Please upload the correct file and choose a valid axis"+str(axis)
             return render(request, 'easyMode.html', context=context_dict)
 
 
