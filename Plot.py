@@ -32,7 +32,6 @@ def Plot(filename, fixed_axis, axis_value, levels=30, amp_min=0, amp_max=2500,co
 
     # Check if we have any measurements
     if n <= 0:
-        print("Error: The " + fixed_axis + " axis has no measurements at " + str(axis_value) + "m.")
         exit(0)
 
     # Take the other values for the given fixed axis value

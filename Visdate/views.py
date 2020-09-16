@@ -38,7 +38,7 @@ def accurateUpload(request):
                 context_dict['vis_success'] = 'True'
                 return render(request, 'accurateMode.html', context=context_dict)
             else:
-                context_dict['vis_success'] = 'False'
+                context_dict['vis_success'] = 'Out'
                 context_dict['errorinfo'] = "The Value is out of range. The value range of the axis you choose is " + \
                                             str(info["fixedmin"]) + " to " + str(info["fixedmax"])  + \
                                             " (" + info["fixedaxis"] + ")" + '.'
@@ -108,9 +108,9 @@ def calculateUpload(request):
             context_dict ['z'] = z
             if result == None:
                 context_dict ['result'] = "No result"
-                context_dict['vis_success'] = 'True'
+                context_dict['vis_success'] = 'NoResult'
             else:
-                context_dict['vis_success'] = 'False'
+                context_dict['vis_success'] = 'True'
                 context_dict ['result'] = str(result)
             return render(request, 'calculateMode.html', context=context_dict)
     except:
@@ -144,7 +144,7 @@ def easyUpload(request):
             return render(request, 'easyMode.html', context=context_dict)
         except:
             context_dict['vis_success'] = 'False'
-            context_dict['errorinfo'] = "Please upload the correct file and choose a valid axis"+str(axis)
+            context_dict['errorinfo'] = "Please upload the correct file and choose a valid axis"
             return render(request, 'easyMode.html', context=context_dict)
 
 
