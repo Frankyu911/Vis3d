@@ -9,13 +9,15 @@
      <div class="col-md-12 column">
          <H3 class="text-warning" style="text-align:center">Calculate Mode</H3>
          <h4>Upload Your File</h4>
-                <form class="form-inline" role="form" method="post" enctype="multipart/form-data" action="/calculateUpload/">
+            <form class="form-inline" role="form" method="post" enctype="multipart/form-data" action="/calculateUpload/">
+
             <div class="form-group">
-                      {% csrf_token %}
-                    <label for="inputFile">File</label><input type="file" id="inputFile" name="file" style="display:none" onchange="changeAgentContent()" />
-                    <input type="text" value="" disabled id="inputFileAgent" />
-                    <input type="button"  class="btn btn-sm"  onclick="document.getElementById('inputFile').click()" value="Browse..." />
-				</div>
+                 {% csrf_token %}
+                <label for="inputFile">File</label><input type="file" id="inputFile" name="file" style="display:none" onchange="changeAgentContent()" />
+                <input type="text" value="" disabled id="inputFileAgent" />
+                <input type="button"  class="btn btn-sm"  onclick="document.getElementById('inputFile').click()" value="Browse..." />
+            </div>
+
             <div class="form-group">
                 <label for="xinput">X</label>
                 <input type="number" id="xinput" name="x_values" value=""  step="0.001">
@@ -55,7 +57,6 @@
         <!--Script-->
         <script type="text/javascript" src="{% static 'js/myjs.js' %}"></script>
         <script type="text/javascript">
-
 
         </script>
 

@@ -1,17 +1,14 @@
 import os
-
 import numpy as np
 
-
+"""The script to get file information"""
 def Plotinfo(filename, fixed_axis,axis_value=None,):
-
     result={}
      # Check fixed_axis has a valid value
     if fixed_axis not in ["x", "y", "z", "X", "Y", "Z"]:
         print("Error: Fixed axis must be x, y or z.")
         exit(0)
     _x,_y,_z,_amplitude = np.loadtxt(os.path.dirname(__file__)+'/'+filename, delimiter=",").T
-
 
     if fixed_axis in ["x", "X"]:
         result['xmin']=_z.min()

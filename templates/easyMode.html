@@ -73,18 +73,17 @@
     </div>
 
 
-
-
-
-
     <!--Script-->
     <script type="text/javascript" src="{% static 'js/myjs.js' %}"></script>
 
     <script type="text/javascript">
         mpld3.draw_figure("fig1", {{graph0 | safe}});
+
+        //Insert the initialized value
         $('#result').html({{jsl.0}});
         $('#range').html("0");
 
+        //For each range of button function
         function range() {
            $('#fig1').empty();
            mpld3.draw_figure("fig1", {{graph0 | safe}});

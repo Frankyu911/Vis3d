@@ -1,11 +1,14 @@
 from django.test import TestCase, Client
 
+"""
+    Create your tests here.
+    True -- visualize successfully
+    False -- visualize unsuccessfully
+    Out -- the value of axis is out of range
+    NoResult -- No results match
+"""
 
-# Create your tests here.
-# True -- visualize successfully
-# False -- visualize unsuccessfully
-# Out -- the value of axis is out of range
-# NoResult -- No results match
+"""The following are upload methods for four modes."""
 
 def easy_uplpad(filename,axis):
     myfile = open(filename,'r')
@@ -37,6 +40,7 @@ def calculate_uplpad(filename,x_value,y_value,z_value):
     return response
 
 
+"""The following are test cases for four modes.It is classified according to the test method."""
 class easy_mode_tests(TestCase):
     def test_post_wrong_file(self):
         data = {'file': '','axis':'x'}
