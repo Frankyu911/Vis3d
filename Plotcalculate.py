@@ -4,6 +4,7 @@ import numpy as np
 """
 The script designed for the calculate mode to obtain the desired value through a simple search algorithm
 """
+
 def Plotcalculate(filename, x, y, z):
     # Read from the file. Expected format: `X,Y,Z,Amplitude`
     _x, _y, _z, _amplitude = np.loadtxt(filename, delimiter=",").T

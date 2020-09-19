@@ -1,7 +1,10 @@
 import os
 import numpy as np
 
-"""The script to get file information"""
+"""
+The script to get file information
+"""
+
 def Plotinfo(filename, fixed_axis,axis_value=None,):
     result={}
      # Check fixed_axis has a valid value

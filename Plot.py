@@ -6,7 +6,7 @@ import numpy as np
 from scipy.interpolate import griddata
 
 
-# The custom JSONEncoder should be implemented for serializing the Numpy array
+# This is a custom JSONEncoder which should be implemented for serializing the Numpy array
 class NumpyEncoder(json.JSONEncoder):
     def default(self, obj):
         # check the type of object
@@ -16,9 +16,8 @@ class NumpyEncoder(json.JSONEncoder):
 
 
 """
-The most important visualisation script, which processes files and returns JSON files.
+The most important visualisation script, which processes files and returns JSON file.
 """
-
 
 def Plot(filename, fixed_axis, axis_value, levels=30, amp_min=0, amp_max=2500, color="magma",
          save=False, file_prefix="", show=True, xmin=None, xmax=None, ymin=None, ymax=None, figsize=(6.4, 4.8)):
